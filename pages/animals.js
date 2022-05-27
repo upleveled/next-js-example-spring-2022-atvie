@@ -19,6 +19,13 @@ const animalsListItemStyles = css`
   }
 `;
 
+const linkContainerStyles = css`
+  border: black 2px solid;
+  a:visited {
+    color: red;
+  }
+`;
+
 export default function Animals(props) {
   return (
     <div>
@@ -33,7 +40,7 @@ export default function Animals(props) {
         {props.animals.map((animal) => {
           return (
             <div key={`animal-${animal.id}`} css={animalsListItemStyles}>
-              <div>
+              <div css={linkContainerStyles}>
                 Name: <Link href={`/animals/${animal.id}`}>{animal.name}</Link>
               </div>
               <div>Type: {animal.type}</div>

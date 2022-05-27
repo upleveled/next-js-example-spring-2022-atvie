@@ -13,3 +13,34 @@ export const animalsDatabase = [
   { id: '5', name: 'Rebecca', type: 'Elephant', accessory: 'Pink bow' },
   { id: '6', name: 'Harry', type: 'Zebra-Eagle', accessory: 'Fishing rod' },
 ];
+
+export const fruitsDatabase = [
+  {
+    id: '1',
+    name: 'papaya',
+    color: 'green',
+    ripeness: 10,
+    icon: '🫒',
+  },
+  {
+    id: '2',
+    name: 'apple',
+    color: 'red',
+    ripeness: 4,
+    icon: '🍎',
+  },
+  {
+    id: '3',
+    name: 'lemon',
+    color: 'yellow',
+    ripeness: 1,
+    icon: '🍋',
+  },
+  {
+    id: '4',
+    name: 'banana',
+    color: 'black',
+    ripeness: 'nope',
+    icon: '🍌',
+  },
+];

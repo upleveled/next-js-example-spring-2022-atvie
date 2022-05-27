@@ -1,7 +1,31 @@
 import { css, Global } from '@emotion/react';
+import { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
+import { getLocalStorage, setLocalStorage } from '../util/localStorage';
+
+const cookieBannerStyles = (isOpen) => css`
+  height: ${isOpen ? '25px' : 0};
+  overflow: hidden;
+  transition: all 200ms ease-in;
+`;
 
 export default function App({ Component, pageProps }) {
+  const [areCookiesAccepted, setAreCookiesAccepted] = useState(false);
+
+  function cookieBannerButtonHandler() {
+    // 2. set the value for the cookieBanner
+    setLocalStorage('areCookiesAccepted', true);
+    setAreCookiesAccepted(true);
+  }
+
+  // useEffect is only frontend
+  useEffect(() => {
+    // 1. we need to check if there is already a value for the cookieBanner
+    if (getLocalStorage('areCookiesAccepted')) {
+      setAreCookiesAccepted(getLocalStorage('areCookiesAccepted'));
+    }
+  }, []);
+
   return (
     <>
       <Global
@@ -29,6 +53,18 @@ export default function App({ Component, pageProps }) {
         all of them, you can remove the Layout
         from pages/_app.js
       */}
+      <div css={cookieBannerStyles(!areCookiesAccepted)}>
+        cookie banner{' '}
+        <button
+          onClick={() => {
+            cookieBannerButtonHandler();
+          }}
+        >
+          yes
+        </button>
+      </div>
+      {/* React omit some dataStructures/ types from the component render the solution is JSON.stringify */}
+      {[[], false, null, undefined]}
       <Layout>
         {/*
           The "Component" component refers to
