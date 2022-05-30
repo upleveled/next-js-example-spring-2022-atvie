@@ -1,4 +1,4 @@
-import camelCase from 'camelcase-keys';
+import camelcaseKeys from 'camelcase-keys';
 import { config } from 'dotenv-safe';
 import postgres from 'postgres';
 
@@ -22,7 +22,7 @@ export async function getAnimals() {
   const animals = await sql`
     SELECT * FROM animals
   `;
-  return animals.map((animal) => camelCase(animal));
+  return animals.map((animal) => camelcaseKeys(animal));
 }
 
 export async function getAnimal(id) {
@@ -34,7 +34,7 @@ export async function getAnimal(id) {
     WHERE
       id = ${id}
   `;
-  return camelCase(animal);
+  return camelcaseKeys(animal);
 }
 
 export const fruitsDatabase = [
