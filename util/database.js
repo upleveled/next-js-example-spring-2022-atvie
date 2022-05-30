@@ -1,18 +1,41 @@
-// Simulate a Node.js server-side dependency
-// to make the file fail if used in frontend
-import fs from 'node:fs';
+import camelCase from 'camelcase-keys';
+import { config } from 'dotenv-safe';
+import postgres from 'postgres';
 
-console.log(fs);
-// End simulation
+config();
 
-export const animalsDatabase = [
-  { id: '1', name: 'Peter', type: 'Baboon', accessory: 'Banana' },
-  { id: '2', name: 'Rita', type: 'Lion', accessory: 'Gold chain' },
-  { id: '3', name: 'Severus', type: 'Snake', accessory: 'Maracas' },
-  { id: '4', name: 'Polly', type: 'Crab', accessory: 'Knife' },
-  { id: '5', name: 'Rebecca', type: 'Elephant', accessory: 'Pink bow' },
-  { id: '6', name: 'Harry', type: 'Zebra-Eagle', accessory: 'Fishing rod' },
-];
+// Connect only once to the database
+// https://github.com/vercel/next.js/issues/7811#issuecomment-715259370
+function connectOneTimeToDatabase() {
+  if (!globalThis.postgresSqlClient) {
+    globalThis.postgresSqlClient = postgres();
+  }
+  const sql = globalThis.postgresSqlClient;
+
+  return sql;
+}
+
+// Connect to PostgreSQL
+const sql = connectOneTimeToDatabase();
+
+export async function getAnimals() {
+  const animals = await sql`
+    SELECT * FROM animals
+  `;
+  return animals.map((animal) => camelCase(animal));
+}
+
+export async function getAnimal(id) {
+  const [animal] = await sql`
+    SELECT
+      *
+    FROM
+      animals
+    WHERE
+      id = ${id}
+  `;
+  return camelCase(animal);
+}
 
 export const fruitsDatabase = [
   {

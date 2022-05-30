@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import Head from 'next/head';
 import Link from 'next/link';
-import { animalsDatabase } from '../util/database';
+import { getAnimals } from '../util/database';
 
 const animalsListStyles = css`
   background: #dfd;
@@ -41,7 +41,8 @@ export default function Animals(props) {
           return (
             <div key={`animal-${animal.id}`} css={animalsListItemStyles}>
               <div css={linkContainerStyles}>
-                Name: <Link href={`/animals/${animal.id}`}>{animal.name}</Link>
+                Name:{' '}
+                <Link href={`/animals/${animal.id}`}>{animal.firstName}</Link>
               </div>
               <div>Type: {animal.type}</div>
               <div>Accessory: {animal.accessory}</div>
@@ -57,13 +58,14 @@ export default function Animals(props) {
 // Node.js (on the server)
 //
 // Important: ONLY in the /pages directory
-export function getServerSideProps() {
+export async function getServerSideProps() {
+  const animals = await getAnimals();
   return {
     // Anything that you pass in the props
     // object will get passed to the component
     // at the top in the `props` parameter
     props: {
-      animals: animalsDatabase,
+      animals: animals,
     },
   };
 }
