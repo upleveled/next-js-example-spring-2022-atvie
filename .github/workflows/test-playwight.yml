@@ -14,3 +14,26 @@ jobs:
 
       - name: Install dependencies and run tests
         run: yarn && yarn playwright test
+
+        on:
+  on: push
+
+jobs:
+  e2e-tests:
+    runs-on: ubuntu-latest # or macos-latest, windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        # Use the official setup-node action (sets up Node.js):
+      # https://github.com/actions/setup-node
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
+
+      - name: Install dependencies
+        run: yarn
+      - name: Install playwright
+        run: yarn playwright install-deps
+      - name: Run tests
+        run: yarn playwright test
