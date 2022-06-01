@@ -2,22 +2,25 @@ name: Playwright Tests
 on: push
 
 jobs:
-  test:
-    timeout-minutes: 60
-    runs-on: ubuntu-latest
+  e2e-tests:
+    runs-on: ubuntu-latest # or macos-latest, windows-latest
+
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+        # Use the official setup-node action (sets up Node.js):
+      # https://github.com/actions/setup-node
+      - name: Use Node.js
+        uses: actions/setup-node@v2
         with:
-          node-version: '14.x'
+          node-version: '16.x'
+
       - name: Install dependencies
         run: yarn
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
-      - name: Run localhost
-        run: yarn dev
-      - name: Run Playwright tests
+      - name: Install playwright
+        run: yarn playwright install-deps
+      - name: Run tests
         run: yarn playwright test
+
       - uses: actions/upload-artifact@v2
         if: always()
         with:
