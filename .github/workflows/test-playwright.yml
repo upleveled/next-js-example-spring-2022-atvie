@@ -18,6 +18,8 @@ jobs:
         run: yarn
       - name: Install playwright
         run: yarn playwright install-deps
+      - name: Build localhost
+      - run: yarn build
       - name: Run tests
         run: yarn playwright test
 
