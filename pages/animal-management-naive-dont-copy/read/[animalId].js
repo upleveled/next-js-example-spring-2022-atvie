@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import Image from 'next/image';
-import { getAnimalById } from '../../util/database';
+import { getAnimalById } from '../../../util/database';
 
 export default function Animal(props) {
   if (!props.animal) {

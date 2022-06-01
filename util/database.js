@@ -25,7 +25,7 @@ export async function getAnimals() {
   return animals.map((animal) => camelcaseKeys(animal));
 }
 
-export async function getAnimal(id) {
+export async function getAnimalById(id) {
   const [animal] = await sql`
     SELECT
       *
@@ -33,6 +33,42 @@ export async function getAnimal(id) {
       animals
     WHERE
       id = ${id}
+  `;
+  return camelcaseKeys(animal);
+}
+
+export async function insertAnimal(firstName, type, accessory) {
+  const [animal] = await sql`
+    INSERT INTO animals
+      (first_name, type, accessory)
+    VALUES
+      (${firstName}, ${type}, ${accessory})
+    RETURNING *
+  `;
+  return camelcaseKeys(animal);
+}
+
+export async function updateAnimalById(id, firstName, accessory) {
+  const [animal] = await sql`
+    UPDATE
+      animals
+    SET
+      first_name = ${firstName},
+      accessory = ${accessory}
+    WHERE
+      id = ${id}
+    RETURNING *
+  `;
+  return camelcaseKeys(animal);
+}
+
+export async function deleteAnimalById(id) {
+  const [animal] = await sql`
+    DELETE FROM
+      animals
+    WHERE
+      id = ${id}
+    RETURNING *
   `;
   return camelcaseKeys(animal);
 }
