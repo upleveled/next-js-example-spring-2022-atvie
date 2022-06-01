@@ -37,6 +37,28 @@ export async function getAnimalById(id) {
   return camelcaseKeys(animal);
 }
 
+export async function getAnimalWithFoodsById(animalId) {
+  // Join query
+  const animalsWithFoods = await sql`
+    SELECT
+      animals.id AS animal_id,
+      animals.first_name AS animal_first_name,
+      animals.type AS animal_type,
+      animals.accessory AS animal_accessory,
+      foods.id AS food_id,
+      foods.name AS food_name
+    FROM
+      animals,
+      animals_foods,
+      foods
+    WHERE
+      animals.id = ${animalId} AND
+      animals_foods.animal_id = animals.id AND
+      foods.id = animals_foods.food_id
+  `;
+  return camelcaseKeys(animalsWithFoods);
+}
+
 export async function insertAnimal(firstName, type, accessory) {
   const [animal] = await sql`
     INSERT INTO animals
