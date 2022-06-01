@@ -4,6 +4,11 @@ on: push
 jobs:
   e2e-tests:
     runs-on: ubuntu-latest # or macos-latest, windows-latest
+    env:
+      PGHOST: localhost
+      PGDATABASE: next_js_example_spring_2022
+      PGUSERNAME: next_js_example_spring_2022
+      PGPASSWORD: next_js_example_spring_2022
 
     steps:
       - uses: actions/checkout@v2
