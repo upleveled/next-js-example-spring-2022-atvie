@@ -37,7 +37,10 @@ export default function Fruits(props) {
     <ul>
       {props.fruits.map((fruit) => {
         return (
-          <li key={`fruit-${fruit.id}`}>
+          <li
+            key={`fruit-${fruit.id}`}
+            data-test-id={`fruits-page-fruit-${fruit.id}`}
+          >
             <Link href={`/fruits/${fruit.id}`}>{fruit.name}</Link>
           </li>
         );
