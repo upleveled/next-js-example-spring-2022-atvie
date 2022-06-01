@@ -4,7 +4,7 @@ const baseUrl = 'http://localhost:3000/';
 
 test('navigation test', async ({ page }) => {
   // Go to http://localhost:3000/
-  await page.goto(baseUrl);
+  await page.goto(baseUrl, { waitUntil: 'load' });
   // Click text=Fruits
   await Promise.all([
     page.locator('text=Fruits').click(),
