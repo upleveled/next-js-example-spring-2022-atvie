@@ -2,6 +2,12 @@ import { devices } from '@playwright/test';
 
 /** @type {import('@playwright/test').PlaywrightTestConfig} */
 const config = {
+  webServer: {
+    command: 'yarn playwright start',
+    url: 'http://localhost:3000/',
+    timeout: 120 * 1000,
+    reuseExistingServer: !process.env.CI,
+  },
   timeout: 30 * 1000,
   expect: {
     /**
@@ -18,10 +24,12 @@ const config = {
   testIgnore: '**/util/__tests__/**',
   retries: process.env.CI ? 2 : 0,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  // reporter: 'html',
+  reporter: 'html',
   use: {
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
   },
   projects: [
     {
