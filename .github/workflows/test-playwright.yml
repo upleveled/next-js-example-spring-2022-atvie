@@ -31,8 +31,11 @@ jobs:
 
       - uses: microsoft/playwright-github-action@v1
 
-      - name: Install dependencies and run tests
-        run: yarn build & yarn start & yarn playwright test
+      - name: Run tests
+        run: yarn playwright test
+
+      # - name: Install dependencies and run tests
+      #   run: yarn build & yarn start & yarn playwright test
 
       # - name: Install dependencies
       #   run: yarn
