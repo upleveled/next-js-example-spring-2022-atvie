@@ -3,7 +3,7 @@ import { devices } from '@playwright/test';
 /** @type {import('@playwright/test').PlaywrightTestConfig} */
 const config = {
   webServer: {
-    command: 'yarn build && yarn start & yarn playwright start',
+    command: 'npm run start',
     url: 'http://localhost:3000/',
     timeout: 120 * 1000,
     reuseExistingServer: !process.env.CI,
@@ -30,6 +30,7 @@ const config = {
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
+    baseURL: 'http://localhost:3000/',
   },
   projects: [
     {

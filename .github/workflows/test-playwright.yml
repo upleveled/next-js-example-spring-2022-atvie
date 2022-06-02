@@ -46,7 +46,7 @@ jobs:
       # - name: Build localhost
       #   run: yarn build
       - name: Run tests
-        run: yarn playwright test
+        run: yarn test
 
       - uses: actions/upload-artifact@v2
         if: always()
