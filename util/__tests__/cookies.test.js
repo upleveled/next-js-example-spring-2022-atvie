@@ -24,10 +24,11 @@ test('sets, gets and deletes a cookie', () => {
     value: { 1: 3, 2: 4 },
   };
   // First, make sure that the value at the start is undefined
-  expect(getParsedCookie(cookie.key)).toStrictEqual(undefined);
+  expect(getParsedCookie(cookie.key)).toBe(undefined);
 
   // Set the cookie value and test that the value was updated
   expect(setStringifiedCookie(cookie.key, cookie.value)).toBeUndefined();
+  // expect(setStringifiedCookie(cookie.key, cookie.value)).toBe(undefined);
   expect(getParsedCookie(cookie.key)).toStrictEqual(cookie.value);
 
   // Best practice: tests clean up any state after themselves
