@@ -36,10 +36,8 @@ jobs:
       - run: yarn migrate up
       - name: Build localhost
         run: yarn build
-      - name: Run localhost
-        run: yarn start
       - name: Run tests
-        run: yarn playwright test
+        run: yarn start & yarn playwright test
 
       - uses: actions/upload-artifact@v2
         if: always()
