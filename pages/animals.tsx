@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import Head from 'next/head';
 import Link from 'next/link';
-import { getAnimals } from '../util/database';
+import { Animal, getAnimals } from '../util/database';
 
 const animalsListStyles = css`
   background: #dfd;
@@ -26,7 +26,11 @@ const linkContainerStyles = css`
   }
 `;
 
-export default function Animals(props) {
+type Props = {
+  animals: Animal[];
+};
+
+export default function Animals(props: Props) {
   return (
     <div>
       <Head>
