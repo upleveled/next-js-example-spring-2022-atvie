@@ -3,9 +3,9 @@ import { devices } from '@playwright/test';
 /** @type {import('@playwright/test').PlaywrightTestConfig} */
 const config = {
   webServer: {
-    command: 'yarn dev',
-    url: 'http://localhost:3000',
-    timeout: 120 * 1000,
+    command: 'yarn start',
+    port: 3000,
+    timeout: 10 * 1000,
     reuseExistingServer: !process.env.CI,
   },
   timeout: 30 * 1000,
@@ -17,7 +17,7 @@ const config = {
     timeout: 5000,
   },
   /* Run tests in files in parallel */
-  fullyParallel: true,
+  // fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Ignore JEST test files */
@@ -30,7 +30,6 @@ const config = {
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
-    baseURL: 'http://localhost:3000',
   },
   projects: [
     {

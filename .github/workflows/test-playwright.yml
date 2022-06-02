@@ -29,22 +29,22 @@ jobs:
         with:
           node-version: '16.x'
 
-      - uses: microsoft/playwright-github-action@v1
-
       # - name: Install dependencies
       #   run: yarn
       # - name: Run migrations
       #   run: yarn migrate up
+      # - name: Run tests
+      #   run: yarn playwright test
+
+      - name: Install dependencies
+        run: yarn
+      - name: Install playwright
+        run: yarn playwright install-deps
+      - run: yarn migrate up
+      - name: Build localhost
+        run: yarn build
       - name: Run tests
         run: yarn playwright test
-
-      # - name: Install dependencies
-      #   run: yarn
-      # - name: Install playwright
-      #   run: yarn playwright install-deps
-      # - run: yarn migrate up
-      # - name: Build localhost
-      #   run: yarn build & yarn playwright test
 
       - uses: actions/upload-artifact@v2
         if: always()
