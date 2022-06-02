@@ -8,7 +8,6 @@ const config = {
     timeout: 10 * 1000,
     reuseExistingServer: !process.env.CI,
   },
-  timeout: 30 * 1000,
   expect: {
     /**
      * Maximum time expect() should wait for the condition to be met.
@@ -24,7 +23,7 @@ const config = {
   testIgnore: '**/util/__tests__/**',
   retries: process.env.CI ? 2 : 0,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: process.env.CI ? 'list' : 'html',
   use: {
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
