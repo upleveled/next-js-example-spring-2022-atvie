@@ -35,10 +35,8 @@ jobs:
         run: yarn
       - name: Run migrations
         run: yarn migrate up
-      - name: Build localhost
-        run: yarn build
-      - name: Run Playwright tests
-        run: yarn start & yarn playwright test
+      - name: Run tests
+        run: yarn playwright test
 
       # - name: Install dependencies
       #   run: yarn
