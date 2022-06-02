@@ -54,8 +54,11 @@ export default function SingleAnimal(props: Props) {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const animalId = queryParamToNumber(context.query.animalId);
-
   const animal = await getAnimalById(animalId);
+
+  if (!animal) {
+    context.res.statusCode = 404;
+  }
 
   return {
     props: {
