@@ -7,7 +7,7 @@ test('adds two numbers together', () => {
 });
 
 test('throws an error if arguments are not numbers', () => {
-  expect(() => sum(1, '2')).toThrow('Arguments must be numbers');
-  expect(() => sum('1', 2)).toThrow('Arguments must be numbers');
-  expect(() => sum('hallo', '2')).toThrow('Arguments must be numbers');
+  expect(() => sum(1, '2')).toThrow('Pass only numbers!');
+  expect(() => sum('1', 2)).toThrow('Pass only numbers!');
+  expect(() => sum('hallo', '2')).toThrow('Pass only numbers!');
 });
