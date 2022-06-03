@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import { getAnimalWithFoodsById } from '../../util/database';
+import { getReducedAnimalsWithFoods } from '../../util/dataStructure';
 
 export default function Animal(props) {
   if (!props.animalWithFoods) {
@@ -61,18 +62,19 @@ export default function Animal(props) {
 export async function getServerSideProps(context) {
   const animalsWithFoods = await getAnimalWithFoodsById(context.query.animalId);
 
-  const animalWithFoods = {
-    id: animalsWithFoods[0].animalId,
-    firstName: animalsWithFoods[0].animalFirstName,
-    type: animalsWithFoods[0].animalType,
-    accessory: animalsWithFoods[0].animalAccessory,
-    foods: animalsWithFoods.map((food) => {
-      return {
-        id: food.foodId,
-        name: food.foodName,
-      };
-    }),
-  };
+  const animalWithFoods = getReducedAnimalsWithFoods(animalsWithFoods);
+  // const animalWithFoods = {
+  //   id: animalsWithFoods[0].animalId,
+  //   firstName: animalsWithFoods[0].animalFirstName,
+  //   type: animalsWithFoods[0].animalType,
+  //   accessory: animalsWithFoods[0].animalAccessory,
+  //   foods: animalsWithFoods.map((food) => {
+  //     return {
+  //       id: food.foodId,
+  //       name: food.foodName,
+  //     };
+  //   }),
+  // };
 
   return {
     props: {
