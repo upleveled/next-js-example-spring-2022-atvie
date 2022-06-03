@@ -1,8 +1,14 @@
+import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
-import { getAnimalById } from '../../util/database';
+import { Animal, getAnimalById } from '../../util/database';
+import { queryParamToNumber } from '../../util/queryParams';
 
-export default function Animal(props) {
+type Props = {
+  animal: Animal | null;
+};
+
+export default function SingleAnimal(props: Props) {
   if (!props.animal) {
     return (
       <div>
@@ -46,12 +52,17 @@ export default function Animal(props) {
   );
 }
 
-export async function getServerSideProps(context) {
-  const animal = await getAnimalById(context.query.animalId);
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const animalId = queryParamToNumber(context.query.animalId);
+  const animal = await getAnimalById(animalId);
+
+  if (!animal) {
+    context.res.statusCode = 404;
+  }
 
   return {
     props: {
-      animal: animal,
+      animal: animal || null,
     },
   };
 }

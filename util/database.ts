@@ -4,6 +4,11 @@ import postgres from 'postgres';
 
 config();
 
+// Type needed for the connection function below
+declare module globalThis {
+  let postgresSqlClient: ReturnType<typeof postgres> | undefined;
+}
+
 // Connect only once to the database
 // https://github.com/vercel/next.js/issues/7811#issuecomment-715259370
 function connectOneTimeToDatabase() {
@@ -18,15 +23,23 @@ function connectOneTimeToDatabase() {
 // Connect to PostgreSQL
 const sql = connectOneTimeToDatabase();
 
+export type Animal = {
+  id: number;
+  firstName: string;
+  type: string;
+  accessory: string;
+};
+
 export async function getAnimals() {
-  const animals = await sql`
+  const animals = await sql<Animal[]>`
     SELECT * FROM animals
   `;
   return animals.map((animal) => camelcaseKeys(animal));
 }
 
-export async function getAnimalById(id) {
-  const [animal] = await sql`
+export async function getAnimalById(id: number | undefined) {
+  if (!id) return undefined;
+  const [animal] = await sql<[Animal | undefined]>`
     SELECT
       *
     FROM
@@ -34,10 +47,10 @@ export async function getAnimalById(id) {
     WHERE
       id = ${id}
   `;
-  return camelcaseKeys(animal);
+  return animal && camelcaseKeys(animal);
 }
 
-export async function getAnimalWithFoodsById(animalId) {
+export async function getAnimalWithFoodsById(animalId: number) {
   // Join query
   const animalsWithFoods = await sql`
     SELECT
@@ -59,7 +72,11 @@ export async function getAnimalWithFoodsById(animalId) {
   return camelcaseKeys(animalsWithFoods);
 }
 
-export async function insertAnimal(firstName, type, accessory) {
+export async function insertAnimal(
+  firstName: string,
+  type: string,
+  accessory: string,
+) {
   const [animal] = await sql`
     INSERT INTO animals
       (first_name, type, accessory)
@@ -70,7 +87,11 @@ export async function insertAnimal(firstName, type, accessory) {
   return camelcaseKeys(animal);
 }
 
-export async function updateAnimalById(id, firstName, accessory) {
+export async function updateAnimalById(
+  id: number,
+  firstName: string,
+  accessory: string,
+) {
   const [animal] = await sql`
     UPDATE
       animals
@@ -84,7 +105,7 @@ export async function updateAnimalById(id, firstName, accessory) {
   return camelcaseKeys(animal);
 }
 
-export async function deleteAnimalById(id) {
+export async function deleteAnimalById(id: number) {
   const [animal] = await sql`
     DELETE FROM
       animals

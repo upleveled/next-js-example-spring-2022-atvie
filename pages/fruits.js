@@ -34,18 +34,21 @@ import { fruitsDatabase } from '../util/database';
 
 export default function Fruits(props) {
   return (
-    <ul>
-      {props.fruits.map((fruit) => {
-        return (
-          <li
-            key={`fruit-${fruit.id}`}
-            data-test-id={`fruits-page-fruit-${fruit.id}`}
-          >
-            <Link href={`/fruits/${fruit.id}`}>{fruit.name}</Link>
-          </li>
-        );
-      })}
-    </ul>
+    <>
+      <h1>Fruits</h1>
+      <ul>
+        {props.fruits.map((fruit) => {
+          return (
+            <li
+              key={`fruit-${fruit.id}`}
+              data-test-id={`fruits-page-fruit-${fruit.id}`}
+            >
+              <Link href={`/fruits/${fruit.id}`}>{fruit.name}</Link>
+            </li>
+          );
+        })}
+      </ul>
+    </>
   );
 }
 

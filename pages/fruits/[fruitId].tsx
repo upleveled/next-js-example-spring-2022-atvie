@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie';
+import { GetServerSidePropsContext } from 'next';
 import { useState } from 'react';
 import { getParsedCookie, setStringifiedCookie } from '../../util/cookies';
 import { fruitsDatabase } from '../../util/database';
@@ -34,11 +35,36 @@ import { fruitsDatabase } from '../../util/database';
 //   },
 // ];
 
-export default function Fruit(props) {
+export type FruitInDiet = {
+  id: string;
+  eatCounter: number;
+};
+
+type Props = {
+  fruit: {
+    id: string;
+    icon: string;
+    color: string;
+    ripeness: number | string;
+    name: string;
+    eatCounter: number;
+  };
+};
+
+export default function Fruit(props: Props) {
   // Check if the fruit is inside of the diet by checking the property eatCounter
   const [isInDiet, setIsInDiet] = useState('eatCounter' in props.fruit);
   // initialize the eatCounter with the value of the cookie or 0
   const [eatCounter, setEatCounter] = useState(props.fruit.eatCounter || 0);
+
+  // Generic type parameter to set the future
+  // type of the state variable
+  const [value, setValue] = useState<number>();
+
+  if (localStorage.endlessLoop === 'please') {
+    setValue(123);
+    console.log(value);
+  }
 
   return (
     <div>
@@ -58,10 +84,12 @@ export default function Fruit(props) {
 
           // if the fruit is inside of the diet ???
           if (
-            currentDiet.find((fruitInDiet) => props.fruit.id === fruitInDiet.id)
+            currentDiet.find(
+              (fruitInDiet: FruitInDiet) => props.fruit.id === fruitInDiet.id,
+            )
           ) {
             newDiet = currentDiet.filter(
-              (fruitInDiet) => fruitInDiet.id !== props.fruit.id,
+              (fruitInDiet: FruitInDiet) => fruitInDiet.id !== props.fruit.id,
             );
             setIsInDiet(false);
             setEatCounter(0);
@@ -91,7 +119,7 @@ export default function Fruit(props) {
 
               // 2. get the fruit
               const currentFruitInDiet = currentDiet.find(
-                (fruitInDiet) => props.fruit.id === fruitInDiet.id,
+                (fruitInDiet: FruitInDiet) => props.fruit.id === fruitInDiet.id,
               );
 
               // 3. update the counter inside of the fruit
@@ -110,7 +138,7 @@ export default function Fruit(props) {
   );
 }
 
-export function getServerSideProps(context) {
+export function getServerSideProps(context: GetServerSidePropsContext) {
   // 1. Get the value of the cookie from the request object
   const currentDiet = JSON.parse(context.req.cookies.diet || '[]');
 
@@ -119,9 +147,18 @@ export function getServerSideProps(context) {
     return fruit.id === context.query.fruitId;
   });
 
+  // If no fruit is found, return null
+  if (!singleFruit) {
+    return {
+      props: {
+        fruit: null,
+      },
+    };
+  }
+
   // 3. Find the object that represent the fruit in the url
   const currentFruitInDiet = currentDiet.find(
-    (fruitInDiet) => singleFruit.id === fruitInDiet.id,
+    (fruitInDiet: FruitInDiet) => singleFruit.id === fruitInDiet.id,
   );
 
   // 4. create a new object adding the properties from the cookie object to the fruit in database
