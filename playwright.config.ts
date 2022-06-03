@@ -1,6 +1,7 @@
-import { devices, PlaywrightTestConfig } from '@playwright/test';
+import { devices } from '@playwright/test';
 
-const config: PlaywrightTestConfig = {
+/** @type {import('@playwright/test').PlaywrightTestConfig} */
+const config = {
   webServer: {
     command: 'yarn start',
     port: 3000,
@@ -14,16 +15,21 @@ const config: PlaywrightTestConfig = {
      */
     timeout: 5000,
   },
+  /* Run tests in files in parallel */
+  // fullyParallel: true,
+  /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
+  /* Ignore JEST test files */
+  testIgnore: '**/util/__tests__/**',
   retries: process.env.CI ? 2 : 0,
+  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: process.env.CI ? 'list' : 'html',
   use: {
+    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
   },
-  /* Ignore JEST test files */
-  testIgnore: '**/util/__tests__/**',
   projects: [
     {
       name: 'chromium',
@@ -37,7 +43,7 @@ const config: PlaywrightTestConfig = {
     //   name: 'webkit',
     //   use: { ...devices['Desktop Safari'] },
     // },
-    // /* Test mobile */
+    /* Test mobile */
     // {
     //   name: 'Mobile Chrome',
     //   use: {
@@ -51,5 +57,8 @@ const config: PlaywrightTestConfig = {
     //   },
     // },
   ],
+  /* Folder for test artifacts such as screenshots, videos, traces, etc. */
+  outputDir: 'test-results/',
 };
-export default config;
+
+module.exports = config;
