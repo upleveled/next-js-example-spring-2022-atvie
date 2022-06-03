@@ -99,9 +99,9 @@ Since the testing lecture, we recognized that `playwright` is missing in the `de
 https://nextjs.org/docs/testing#setting-up-jest-with-the-rust-compiler
 
 1. If `playwright` is not in your `devDependencies`, please run `yarn add --dev playwright`
-1. Delete `babel.config.js`
-2. Run `yarn --dev jest @testing-library/react @testing-library/jest-dom`
-3. Copy `jest.config.js` file. https://github.dev/upleveled/next-js-example-spring-2022/blob/main/jest.config.js
+2. Delete `babel.config.js`
+3. Run `yarn add --dev jest @testing-library/react @testing-library/jest-dom`
+4. Copy `jest.config.js` file. https://github.dev/upleveled/next-js-example-spring-2022/blob/main/jest.config.js
 
 Make sure that you have all the `dependencies/devDependencies` added to your `package.json` file. 
 https://github.dev/upleveled/next-js-example-spring-2022/blob/main/package.json
