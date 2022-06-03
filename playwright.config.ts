@@ -1,7 +1,6 @@
-import { devices } from '@playwright/test';
+import { devices, type PlaywrightTestConfig } from '@playwright/test';
 
-/** @type {import('@playwright/test').PlaywrightTestConfig} */
-const config = {
+const config: PlaywrightTestConfig = {
   webServer: {
     command: 'yarn start',
     port: 3000,
