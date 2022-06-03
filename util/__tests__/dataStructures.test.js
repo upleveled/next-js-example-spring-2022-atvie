@@ -30,6 +30,7 @@ test('reduces animal favorite foods', () => {
       { id: 5, name: 'Worms' },
     ],
   });
-
-  expect(getReducedAnimalWithFoods(animalWithFoods));
+  // Jest snapshots may be helpful if you are
+  // writing a lot of data structures by hand
+  // expect(getReducedAnimalWithFoods(animalWithFoods)).toMatchSnapshot();
 });
