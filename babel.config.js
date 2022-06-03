@@ -12,5 +12,4 @@ module.exports = {
     ],
   ],
   plugins: ['@emotion/babel-plugin'],
-  // presets: [['next/babel']],
 };
