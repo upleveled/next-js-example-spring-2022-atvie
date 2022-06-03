@@ -13,8 +13,8 @@ test('navigation test', async ({ page }) => {
   // ]);
   await expect(titleLocator).toHaveText('Fruits');
   const fruitsList = await page.$$('[data-test-id^="fruits-page-fruit-"]');
-  expect(fruitsList.length).toBe(4);
-  const fruitsLocator = page.locator('[data-test-id^="fruits-page-fruit-"]');
+  await expect(fruitsList.length).toBe(4);
+  await const fruitsLocator = page.locator('[data-test-id^="fruits-page-fruit-"]');
   await expect(fruitsLocator).toHaveText([
     'papaya',
     'apple',
