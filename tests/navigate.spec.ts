@@ -30,11 +30,6 @@ test('navigation test', async ({ page }) => {
     page.waitForNavigation({ url: 'http://localhost:3000/fruits/4' }),
   ]);
 
-  await Promise.all([
-    page.locator('text=banana').click(),
-    page.waitForNavigation({ url: `${baseUrl}fruits/4` }),
-  ]);
-
   await page.locator('text=add to diet').click();
   await page.locator('text=eat one').click();
   await page.locator('button', { hasText: 'eat one' }).click();
