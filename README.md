@@ -91,3 +91,21 @@ Base URL (development): http://localhost:3000/api/
 3. Creating a new user: `POST /users`
 4. Deleting a user: `DELETE /users/:id`
 5. Updating a user: `PUT /users/:id`
+
+## Testing 
+
+### Update
+Since the testing lecture, we recognized that `playwright` is missing in the `devDependencies`, and we deleted the `babel.config.js` and set up Jest with the Rust Compiler.
+https://nextjs.org/docs/testing#setting-up-jest-with-the-rust-compiler
+
+1. If `playwright` is not in your `devDependencies`, please run `yarn add --dev playwright`
+1. Delete `babel.config.js`
+2. Run `yarn --dev jest @testing-library/react @testing-library/jest-dom`
+3. Copy `jest.config.js` file. https://github.dev/upleveled/next-js-example-spring-2022/blob/main/jest.config.js
+
+Make sure that you have all the `dependencies/devDependencies` added to your `package.json` file. 
+https://github.dev/upleveled/next-js-example-spring-2022/blob/main/package.json
+
+
+
+
