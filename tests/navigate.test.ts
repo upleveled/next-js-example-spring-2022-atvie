@@ -14,7 +14,7 @@ test('navigation test', async ({ page }) => {
 
   // page.$$ finds all elements matching the specified selector within the page.
   const fruitsList = await page.$$('[data-test-id^="fruits-page-fruit-"]');
-  await expect(fruitsList.length).toBe(5);
+  await expect(fruitsList.length).toBe(4);
   const fruitsLocator = await page.locator(
     '[data-test-id^="fruits-page-fruit-"]',
   );
