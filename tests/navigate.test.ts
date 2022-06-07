@@ -7,12 +7,12 @@ test('navigation test', async ({ page }) => {
   const titleLocator = await page.locator('h1');
   await expect(titleLocator).toHaveText('Tierpark');
 
-  await Promise.all([
-    page.locator('text=Fruits').click(),
-    page.waitForNavigation({ url: `${baseUrl}fruits` }),
-  ]);
+  await page.locator('text=Fruits').click();
+  await expect(page).toHaveURL(`${baseUrl}fruits`);
 
   await expect(titleLocator).toHaveText('Fruits');
+
+  // page.$$ finds all elements matching the specified selector within the page.
   const fruitsList = await page.$$('[data-test-id^="fruits-page-fruit-"]');
   await expect(fruitsList.length).toBe(4);
   const fruitsLocator = await page.locator(
@@ -25,10 +25,8 @@ test('navigation test', async ({ page }) => {
     'banana',
   ]);
 
-  await Promise.all([
-    page.locator('text=banana').click(),
-    page.waitForNavigation({ url: 'http://localhost:3000/fruits/4' }),
-  ]);
+  await page.locator('text=banana').click();
+  await expect(page).toHaveURL(`${baseUrl}fruits/4`);
 
   await page.locator('text=add to diet').click();
   await page.locator('text=eat one').click();
