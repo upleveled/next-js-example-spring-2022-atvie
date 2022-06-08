@@ -18,3 +18,11 @@ export function getParsedCookie(key: string) {
 export function setStringifiedCookie(key: string, value: FruitInDiet[]) {
   Cookies.set(key, JSON.stringify(value));
 }
+
+export function stringifyCookieValue(value: FruitInDiet[]) {
+  return JSON.stringify(value);
+}
+
+export function deleteCookie(key: string) {
+  Cookies.remove(key);
+}
