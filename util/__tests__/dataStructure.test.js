@@ -30,5 +30,4 @@ test('reduces animal favorite foods', () => {
       { id: 5, name: 'Worms' },
     ],
   });
-  expect(getReducedAnimalsWithFoods(animalWithFoods)).toMatchSnapshot();
 });
