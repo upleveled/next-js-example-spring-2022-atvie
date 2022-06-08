@@ -26,8 +26,7 @@ test('set, gets and delete a cookie', () => {
   // Use .toStrictEqual to test that objects have the same types as well as structure.
   expect(getParsedCookie(cookie.key)).toStrictEqual(cookie.value);
 
-  // Best practice: clean up after test
-  // Use .toBe to compare primitive values or to check referential identity of object instances.
+  // Best practice: clear state after test to bring the system back to the initial state
   expect(deleteCookie(cookie.key)).toBe(undefined);
   expect(getParsedCookie(cookie.key)).toBe(undefined);
 });
