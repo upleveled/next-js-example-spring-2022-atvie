@@ -4,7 +4,7 @@ on: push
 jobs:
   e2e-tests:
     runs-on: ubuntu-latest # or macos-latest, windows-latest
-    # Update env variables with your credentials
+    # Update env variables with your own database credentials
     env:
       PGHOST: localhost
       PGDATABASE: next_js_example_spring_2022
