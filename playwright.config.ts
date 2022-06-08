@@ -1,6 +1,6 @@
 import { devices, PlaywrightTestConfig } from '@playwright/test';
 
-// https://playwright.dev/docs/test-configuration
+// config file reference - https://playwright.dev/docs/test-configuration
 const config: PlaywrightTestConfig = {
   webServer: {
     command: 'yarn start',
