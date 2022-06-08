@@ -23,7 +23,7 @@ test('set, gets and delete a cookie', () => {
   // Set the cookie value and test that the value was updated
   expect(() => setStringifiedCookie(cookie.key, cookie.value)).not.toThrow();
 
-  // Use .toStrictEqual to test that objects have the same types as well as structure.
+  // Use .toStrictEqual to test that objects have the same types as well as structure
   expect(getParsedCookie(cookie.key)).toStrictEqual(cookie.value);
 
   // Best practice: clear state after test to bring the system back to the initial state
