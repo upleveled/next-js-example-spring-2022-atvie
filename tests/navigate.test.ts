@@ -4,7 +4,7 @@ const baseUrl = 'http://localhost:3000/';
 
 test('navigation test', async ({ page }) => {
   await page.goto(baseUrl);
-  // page.locator find elements on the page at any moment.
+  // page.locator finds elements on the page at any moment
   const titleLocator = await page.locator('h1');
   await expect(titleLocator).toHaveText('Tierpark');
 
