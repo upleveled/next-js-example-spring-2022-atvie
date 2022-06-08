@@ -16,7 +16,7 @@ test('set, gets and delete a cookie', () => {
     key: 'diet',
     value: [{ id: '1', eatCounter: 2 }],
   };
-  // First, make sure that the value is undefined
+  // First, make sure that the return value of the function is undefined
   // Use .toBe to compare primitive values or to check referential identity of object instances
   expect(getParsedCookie(cookie.key)).toBe(undefined);
 
