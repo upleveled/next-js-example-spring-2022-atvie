@@ -14,7 +14,7 @@ test('navigation test', async ({ page }) => {
   await expect(titleLocator).toHaveText('Fruits');
 
   // page.$$ finds all elements matching the specified selector within the page,
-  // and and returns an array of their WebElement instances.
+  // and returns an array of WebElement instances
   const fruitsList = await page.$$('[data-test-id^="fruits-page-fruit-"]');
   await expect(fruitsList.length).toBe(4);
   const fruitsLocator = await page.locator(
