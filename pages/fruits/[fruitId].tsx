@@ -59,12 +59,12 @@ export default function Fruit(props: Props) {
 
   // Generic type parameter to set the future
   // type of the state variable
-  const [value, setValue] = useState<number>();
+  // const [value, setValue] = useState<number>();
 
-  if (localStorage.endlessLoop === 'please') {
-    setValue(123);
-    console.log(value);
-  }
+  // if (localStorage.endlessLoop === 'please') {
+  //   setValue(123);
+  //   console.log(value);
+  // }
 
   return (
     <div>
