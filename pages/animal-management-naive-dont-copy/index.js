@@ -16,7 +16,8 @@ export default function NaiveIndex() {
 
       <ul>
         <li>
-          <Link href="/animal-management-naive-dont-copy/create">Create</Link>
+          <Link href="/animal-management-naive-dont-copy/insert">Create</Link>
+          {/* I need to pass all in query params - I don't have body */}
         </li>
         <li>
           <Link href="/animal-management-naive-dont-copy/read">Read</Link>

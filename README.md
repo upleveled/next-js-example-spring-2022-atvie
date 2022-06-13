@@ -86,8 +86,9 @@ yarn migrate down
 
 Base URL (development): http://localhost:3000/api/
 
-1. Reading all users: `GET /users`
-2. Reading a single user: `GET /users/:id`
-3. Creating a new user: `POST /users`
-4. Deleting a user: `DELETE /users/:id`
-5. Updating a user: `PUT /users/:id`
+1. Reading all users: `GET /animals` ===> api/animals/index.js
+2. Creating a new user: `POST /animals` ===> api/animals/index.js
+
+3. Reading a single user: `GET /animals/:id` ===> api/animals/[animalId].js
+4. Deleting a user: `DELETE /animals/:id` ===> api/animals/[animalId].js
+5. Updating a user: `PUT /animals/:id` ===> api/animals/[animalId].js

@@ -22,6 +22,7 @@ export default function Header() {
         <Link href="/about">About</Link>
         <Link href="/animals">Animals</Link>
         <Link href="/fruits">Fruits</Link>
+        <Link href="/api-frontend-animal-list">Animal List Frontend</Link>
         {/*
           This is how Next.js used to require
           links to be
