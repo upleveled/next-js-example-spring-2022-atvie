@@ -7,8 +7,15 @@ const headerStyles = css`
   border-radius: 4px;
   display: flex;
   justify-content: space-between;
+  display: flex;
+  gap: 5px;
 
   > div > a + a {
+    margin-left: 10px;
+  }
+
+  > div {
+    margin-right: auto;
     margin-left: 10px;
   }
 `;
@@ -23,15 +30,18 @@ export default function Header() {
         <Link href="/animals">Animals</Link>
         <Link href="/fruits">Fruits</Link>
         <Link href="/api-frontend-animal-list">Animal List Frontend</Link>
+
         {/*
           This is how Next.js used to require
           links to be
 
           <Link href="/about">
-            <a>About</a>
+          <a>About</a>
           </Link>
         */}
       </div>
+      <Link href="/register">Register</Link>
+      <Link href="/login">Login</Link>
     </header>
   );
 }

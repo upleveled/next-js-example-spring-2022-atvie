@@ -158,3 +158,70 @@ export const fruitsDatabase = [
     icon: '🍌',
   },
 ];
+
+export type User = {
+  id: number;
+  username: string;
+};
+
+type UserWithPasswordHash = User & {
+  passwordHash: string;
+};
+
+export async function createUser(username: string, passwordHash: string) {
+  const [user] = await sql<[User]>`
+  INSERT INTO users
+    (username, password_hash)
+  VALUES
+    (${username}, ${passwordHash})
+  RETURNING
+    id,
+    username
+  `;
+
+  return camelcaseKeys(user);
+}
+
+export async function getUserByUsername(username: string) {
+  if (!username) return undefined;
+
+  const [user] = await sql<[User | undefined]>`
+    SELECT
+      id,
+      username
+    FROM
+      users
+    WHERE
+      username = ${username}
+  `;
+  return user && camelcaseKeys(user);
+}
+
+export async function getUserById(userId: number) {
+  if (!userId) return undefined;
+
+  const [user] = await sql<[User | undefined]>`
+    SELECT
+      id,
+      username
+    FROM
+      users
+    WHERE
+      id = ${userId}
+  `;
+  return user && camelcaseKeys(user);
+}
+
+export async function getUserWithPasswordHashByUsername(username: string) {
+  if (!username) return undefined;
+
+  const [user] = await sql<[UserWithPasswordHash | undefined]>`
+    SELECT
+     *
+    FROM
+      users
+    WHERE
+      username = ${username}
+  `;
+  return user && camelcaseKeys(user);
+}
