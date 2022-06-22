@@ -1,5 +1,5 @@
 import { css, Global } from '@emotion/react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Layout from '../components/Layout';
 import { getLocalStorage, setLocalStorage } from '../util/localStorage';
 
@@ -11,6 +11,20 @@ const cookieBannerStyles = (isOpen) => css`
 
 export default function App({ Component, pageProps }) {
   const [areCookiesAccepted, setAreCookiesAccepted] = useState(false);
+  const [user, setUser] = useState();
+
+  const refreshUserProfile = useCallback(async () => {
+    const profileResponse = await fetch('/api/profile');
+
+    const profileResponseBody = await profileResponse.json();
+
+    if (!('errors' in profileResponseBody)) {
+      setUser(profileResponseBody.user);
+    } else {
+      profileResponseBody.errors.forEach((error) => console.log(error.message));
+      setUser(undefined);
+    }
+  }, []);
 
   function cookieBannerButtonHandler() {
     // 2. set the value for the cookieBanner
@@ -24,7 +38,9 @@ export default function App({ Component, pageProps }) {
     if (getLocalStorage('areCookiesAccepted')) {
       setAreCookiesAccepted(getLocalStorage('areCookiesAccepted'));
     }
-  }, []);
+
+    refreshUserProfile().catch(() => console.log('fetch api failed'));
+  }, [refreshUserProfile]);
 
   return (
     <>
@@ -65,12 +81,12 @@ export default function App({ Component, pageProps }) {
       </div>
       {/* React omit some dataStructures/ types from the component render the solution is JSON.stringify */}
       {[[], false, null, undefined]}
-      <Layout>
+      <Layout user={user}>
         {/*
           The "Component" component refers to
           the current page that is being rendered
         */}
-        <Component {...pageProps} />
+        <Component {...pageProps} refreshUserProfile={refreshUserProfile} />
       </Layout>
     </>
   );

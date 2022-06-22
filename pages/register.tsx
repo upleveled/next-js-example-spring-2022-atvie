@@ -10,7 +10,11 @@ export const errorStyles = css`
   padding: 5px;
   margin-top: 5px;
 `;
-export default function Register() {
+
+type Props = {
+  refreshUserProfile: () => Promise<void>;
+};
+export default function Register(props: Props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<
@@ -42,10 +46,25 @@ export default function Register() {
       setErrors(registerResponseBody.errors);
       return;
     }
-    // redirect user to home
-    await router.push(`/`);
-    // you may want to return to the user profile too
-    // await router.push(`/users/${registerResponseBody.user.id}`);
+
+    const returnTo = router.query.returnTo;
+
+    if (
+      returnTo &&
+      !Array.isArray(returnTo) &&
+      // Security: Validate returnTo parameter against valid path
+      // (because this is untrusted user input)
+      /^\/[a-zA-Z0-9-?=/]*$/.test(returnTo)
+    ) {
+      await props.refreshUserProfile();
+      await router.push(returnTo);
+    } else {
+      // redirect user to user profile
+      // if you want to use userProfile with username redirect to /users/username
+      // await router.push(`/users/${loginResponseBody.user.id}`);
+      await props.refreshUserProfile();
+      await router.push(`/`);
+    }
   }
 
   return (

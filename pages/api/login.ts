@@ -1,6 +1,11 @@
+import crypto from 'node:crypto';
 import bcrypt from 'bcrypt';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getUserWithPasswordHashByUsername } from '../../util/database';
+import { createSerializedRegisterSessionTokenCookie } from '../../util/cookies';
+import {
+  createSession,
+  getUserWithPasswordHashByUsername,
+} from '../../util/database';
 
 export type LoginResponseBody =
   | {
@@ -54,9 +59,20 @@ export default async function handler(
     const userId = userWithPasswordHashUseWithCaution.id;
 
     // TODO: create a session for this user
+    const token = crypto.randomBytes(80).toString('base64');
+
+    const session = await createSession(token, userId);
+
+    const serializedCookie = await createSerializedRegisterSessionTokenCookie(
+      session.token,
+    );
 
     // if you want to use username as identifier return the username too
-    res.status(200).json({ user: { id: userId } });
+    res
+      .status(200)
+      // Tells the browser to create the cookie for us
+      .setHeader('set-Cookie', serializedCookie)
+      .json({ user: { id: userId } });
   } else {
     res.status(405).json({ errors: [{ message: 'method not allowed' }] });
   }

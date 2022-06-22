@@ -225,3 +225,69 @@ export async function getUserWithPasswordHashByUsername(username: string) {
   `;
   return user && camelcaseKeys(user);
 }
+
+type Session = {
+  id: number;
+  token: string;
+};
+
+export async function createSession(token: string, userId: User['id']) {
+  const [session] = await sql<[Session]>`
+  INSERT INTO sessions
+    (token, user_id)
+  VALUES
+    (${token}, ${userId})
+  RETURNING
+    id,
+    token
+  `;
+
+  await deleteExpiredSessions();
+
+  return camelcaseKeys(session);
+}
+
+export async function getUserByValidSessionToken(token: string) {
+  if (!token) return undefined;
+
+  const [user] = await sql<[User | undefined]>`
+  SELECT
+    users.id,
+    users.username
+  FROM
+    users,
+    sessions
+  WHERE
+    sessions.token = ${token} AND
+    sessions.user_id = users.id AND
+    sessions.expiry_timestamp > now();
+  `;
+
+  await deleteExpiredSessions();
+
+  return user && camelcaseKeys(user);
+}
+
+export async function deleteSessionByToken(token: string) {
+  const [session] = await sql<[Session | undefined]>`
+  DELETE FROM
+    sessions
+  WHERE
+    sessions.token = ${token}
+  RETURNING *
+  `;
+
+  return session && camelcaseKeys(session);
+}
+
+export async function deleteExpiredSessions() {
+  const sessions = await sql<[Session[]]>`
+  DELETE FROM
+    sessions
+  WHERE
+    expiry_timestamp < now()
+  RETURNING *
+  `;
+
+  return sessions.map((session) => camelcaseKeys(session));
+}

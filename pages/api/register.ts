@@ -1,6 +1,12 @@
+import crypto from 'node:crypto';
 import bcrypt from 'bcrypt';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { createUser, getUserByUsername } from '../../util/database';
+import { createSerializedRegisterSessionTokenCookie } from '../../util/cookies';
+import {
+  createSession,
+  createUser,
+  getUserByUsername,
+} from '../../util/database';
 
 export type RegisterResponseBody =
   | {
@@ -28,6 +34,8 @@ export default async function handler(
       return;
     }
 
+    // here you can add extra checks and constraints
+
     if (await getUserByUsername(req.body.username)) {
       res.status(401).json({ errors: [{ message: 'username already taken' }] });
       return;
@@ -38,8 +46,21 @@ export default async function handler(
     // create the user
     const newUser = await createUser(req.body.username, passwordHash);
 
+    // TODO: create a session for this user
+    const token = crypto.randomBytes(80).toString('base64');
+
+    const session = await createSession(token, newUser.id);
+
+    const serializedCookie = await createSerializedRegisterSessionTokenCookie(
+      session.token,
+    );
+
     // if you want to use username as identifier return the username too
-    res.status(200).json({ user: { id: newUser.id } });
+    res
+      .status(200)
+      // Tells the browser to create the cookie for us
+      .setHeader('set-Cookie', serializedCookie)
+      .json({ user: { id: newUser.id } });
   } else {
     res.status(405).json({ errors: [{ message: 'method not allowed' }] });
   }

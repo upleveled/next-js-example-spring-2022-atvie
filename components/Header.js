@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import Link from 'next/link';
+import { productionBrowserSourceMaps } from '../next.config';
 
 const headerStyles = css`
   padding: 8px 14px;
@@ -20,7 +21,7 @@ const headerStyles = css`
   }
 `;
 
-export default function Header() {
+export default function Header(props) {
   return (
     <header css={headerStyles}>
       🐒
@@ -40,8 +41,17 @@ export default function Header() {
           </Link>
         */}
       </div>
-      <Link href="/register">Register</Link>
-      <Link href="/login">Login</Link>
+      {props.user && (
+        <Link href="/users/private-profile">{props.user.username}</Link>
+      )}
+      {props.user ? (
+        <Link href="/logout">Logout</Link>
+      ) : (
+        <>
+          <Link href="/register">Register</Link>
+          <Link href="/login">Login</Link>
+        </>
+      )}
     </header>
   );
 }
