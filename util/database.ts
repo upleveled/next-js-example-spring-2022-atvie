@@ -1,6 +1,7 @@
 import camelcaseKeys from 'camelcase-keys';
 import { config } from 'dotenv-safe';
 import postgres from 'postgres';
+import Animals from '../pages/animals';
 import setPostgresDefaultsOnHeroku from './setPostgresDefaultsOnHeroku';
 
 setPostgresDefaultsOnHeroku();
@@ -231,12 +232,16 @@ type Session = {
   token: string;
 };
 
-export async function createSession(token: string, userId: User['id']) {
+export async function createSession(
+  token: string,
+  userId: User['id'],
+  CSRFSecret: string,
+) {
   const [session] = await sql<[Session]>`
   INSERT INTO sessions
-    (token, user_id)
+    (token, user_id, csrf_secret)
   VALUES
-    (${token}, ${userId})
+    (${token}, ${userId}, ${CSRFSecret})
   RETURNING
     id,
     token
@@ -245,6 +250,28 @@ export async function createSession(token: string, userId: User['id']) {
   await deleteExpiredSessions();
 
   return camelcaseKeys(session);
+}
+
+type SessionWithCSRFSecret = Session & { csrfSecret: string };
+
+export async function getValidSessionByToken(token: string) {
+  if (!token) return undefined;
+
+  const [session] = await sql<[SessionWithCSRFSecret | undefined]>`
+  SELECT
+    sessions.id,
+    sessions.token,
+    sessions.csrf_secret
+  FROM
+    sessions
+  WHERE
+    sessions.token = ${token} AND
+    sessions.expiry_timestamp > now();
+  `;
+
+  await deleteExpiredSessions();
+
+  return session && camelcaseKeys(session);
 }
 
 export async function getUserByValidSessionToken(token: string) {

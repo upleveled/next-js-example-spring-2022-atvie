@@ -45,7 +45,8 @@ export default function Header(props) {
         <Link href="/users/private-profile">{props.user.username}</Link>
       )}
       {props.user ? (
-        <Link href="/logout">Logout</Link>
+        // using a instead of Link since we want to force a full refresh
+        <a href="/logout">Logout</a>
       ) : (
         <>
           <Link href="/register">Register</Link>

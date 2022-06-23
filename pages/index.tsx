@@ -1,17 +1,8 @@
 import Head from 'next/head';
 import Image from 'next/image';
-import { useEffect } from 'react';
 import baboon from '../public/baboon.jpeg';
 
-type Props = {
-  refreshUserProfile: () => Promise<void>;
-};
-export default function Home(props: Props) {
-  useEffect(() => {
-    props
-      .refreshUserProfile()
-      .catch(() => console.log('refresh user profile Failed'));
-  }, [props]);
+export default function Home() {
   return (
     <div>
       <Head>

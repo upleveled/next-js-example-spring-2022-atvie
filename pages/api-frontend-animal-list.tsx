@@ -1,7 +1,9 @@
+import { GetServerSidePropsContext } from 'next';
 import { Fragment, useEffect, useState } from 'react';
-import { Animal } from '../util/database';
+import { createCsrfToken } from '../util/auth';
+import { Animal, getValidSessionByToken } from '../util/database';
 
-export default function ApiFrontendAnimalList() {
+export default function ApiFrontendAnimalList(props: any) {
   const [animalList, setAnimalList] = useState<Animal[]>([]);
 
   const [activeAnimalId, setActiveAnimalId] = useState<
@@ -28,6 +30,10 @@ export default function ApiFrontendAnimalList() {
     });
   }, []);
 
+  if ('errors' in props) {
+    return <h1>Sorry not animals for you today</h1>;
+  }
+
   async function createAnimalHandler() {
     const response = await fetch('api/animals', {
       method: 'POST',
@@ -38,6 +44,7 @@ export default function ApiFrontendAnimalList() {
         firstName: newFirstName,
         accessory: newAccessory,
         type: newType,
+        csrfToken: props.csrfToken,
       }),
     });
     const createdAnimal = await response.json();
@@ -53,7 +60,15 @@ export default function ApiFrontendAnimalList() {
   }
 
   async function deleteAnimalHandler(id: number) {
-    const response = await fetch(`api/animals/${id}`, { method: 'DELETE' });
+    const response = await fetch(`api/animals/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        csrfToken: props.csrfToken,
+      }),
+    });
     const deletedAnimal = await response.json();
 
     // copy state
@@ -74,6 +89,7 @@ export default function ApiFrontendAnimalList() {
       body: JSON.stringify({
         firstName: editFirstName,
         accessory: editAccessory,
+        csrfToken: props.csrfToken,
       }),
     });
     const updatedAnimal = await response.json();
@@ -93,6 +109,7 @@ export default function ApiFrontendAnimalList() {
 
   return (
     <>
+      <br />
       <label>
         Name:{' '}
         <input
@@ -204,4 +221,22 @@ export default function ApiFrontendAnimalList() {
         })}
     </>
   );
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const sessionToken = context.req.cookies.sessionToken;
+
+  const session = await getValidSessionByToken(sessionToken);
+
+  if (!session) {
+    return {
+      props: { errors: 'Not authenticated' },
+    };
+  }
+
+  const csrfToken = await createCsrfToken(session.csrfSecret);
+
+  return {
+    props: { csrfToken: csrfToken },
+  };
 }
