@@ -1,6 +1,5 @@
 import { css } from '@emotion/react';
 import Link from 'next/link';
-import { productionBrowserSourceMaps } from '../next.config';
 
 const headerStyles = css`
   padding: 8px 14px;
@@ -46,6 +45,7 @@ export default function Header(props) {
       )}
       {props.user ? (
         // using a instead of Link since we want to force a full refresh
+        // eslint-disable-next-line @next/next/no-html-link-for-pages
         <a href="/logout">Logout</a>
       ) : (
         <>

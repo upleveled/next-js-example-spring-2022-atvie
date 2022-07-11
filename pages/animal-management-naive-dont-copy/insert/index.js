@@ -46,6 +46,7 @@ export async function getServerSideProps(context) {
     context.query.type,
     context.query.accessory,
   );
+
   return {
     props: {
       insertedAnimal: insertedAnimal || null,

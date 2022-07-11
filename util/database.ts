@@ -1,7 +1,6 @@
 import camelcaseKeys from 'camelcase-keys';
 import { config } from 'dotenv-safe';
 import postgres from 'postgres';
-import Animals from '../pages/animals';
 import setPostgresDefaultsOnHeroku from './setPostgresDefaultsOnHeroku';
 
 setPostgresDefaultsOnHeroku();
@@ -90,14 +89,14 @@ export async function insertAnimal(
   type: string,
   accessory: string,
 ) {
-  const [animal] = await sql`
+  const [animal] = await sql<[Animal | undefined]>`
     INSERT INTO animals
       (first_name, type, accessory)
     VALUES
       (${firstName}, ${type}, ${accessory})
     RETURNING *
   `;
-  return camelcaseKeys(animal);
+  return animal && camelcaseKeys(animal);
 }
 
 export async function updateAnimalById(
@@ -105,7 +104,7 @@ export async function updateAnimalById(
   firstName: string,
   accessory: string,
 ) {
-  const [animal] = await sql`
+  const [animal] = await sql<[Animal | undefined]>`
     UPDATE
       animals
     SET
@@ -115,18 +114,18 @@ export async function updateAnimalById(
       id = ${id}
     RETURNING *
   `;
-  return camelcaseKeys(animal);
+  return animal && camelcaseKeys(animal);
 }
 
 export async function deleteAnimalById(id: number) {
-  const [animal] = await sql`
+  const [animal] = await sql<[Animal | undefined]>`
     DELETE FROM
       animals
     WHERE
       id = ${id}
     RETURNING *
   `;
-  return camelcaseKeys(animal);
+  return animal && camelcaseKeys(animal);
 }
 
 export const fruitsDatabase = [

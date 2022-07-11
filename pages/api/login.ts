@@ -20,7 +20,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<LoginResponseBody>,
 ) {
-  console.log(req.method);
   // check the method to be post
   if (req.method === 'POST') {
     if (
