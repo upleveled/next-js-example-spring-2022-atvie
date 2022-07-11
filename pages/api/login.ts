@@ -77,7 +77,7 @@ export default async function handler(
     res
       .status(200)
       // Tells the browser to create the cookie for us
-      .setHeader('set-Cookie', serializedCookie)
+      .setHeader('Set-Cookie', serializedCookie)
       .json({ user: { id: userId } });
   } else {
     res.status(405).json({ errors: [{ message: 'method not allowed' }] });
