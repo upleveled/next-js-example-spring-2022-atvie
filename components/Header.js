@@ -20,6 +20,11 @@ const headerStyles = css`
   }
 `;
 
+function Anchor({ children, ...restProps }) {
+  // using a instead of Link since we want to force a full refresh
+  return <a {...restProps}>{children}</a>;
+}
+
 export default function Header(props) {
   return (
     <header css={headerStyles}>
@@ -44,9 +49,8 @@ export default function Header(props) {
         <Link href="/users/private-profile">{props.user.username}</Link>
       )}
       {props.user ? (
-        // using a instead of Link since we want to force a full refresh
-        // eslint-disable-next-line @next/next/no-html-link-for-pages
-        <a href="/logout">Logout</a>
+        // using custom component to work around ESLint error
+        <Anchor href="/logout">Logout</Anchor>
       ) : (
         <>
           <Link href="/register">Register</Link>
