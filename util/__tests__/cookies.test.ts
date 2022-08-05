@@ -8,7 +8,9 @@ import {
 // This is closest to what we want in unit tests
 // testing a single, small function that doesn't depend on a library
 test('stringify a cookie value', () => {
-  expect(stringifyCookieValue({ 1: 10, 2: 15 })).toBe('{"1":10,"2":15}');
+  expect(stringifyCookieValue([{ id: '1', eatCounter: 2 }])).toBe(
+    '[{"id":"1","eatCounter":2}]',
+  );
 });
 
 test('set, gets and delete a cookie', () => {
