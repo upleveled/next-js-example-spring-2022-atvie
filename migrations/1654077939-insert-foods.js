@@ -17,7 +17,7 @@ exports.down = async (sql) => {
   for (const food of foods) {
     await sql`
       DELETE FROM
-        food
+        foods
       WHERE
         name = ${food.name}
     `;
