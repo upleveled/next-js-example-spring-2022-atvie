@@ -5,14 +5,13 @@ kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
 
-# Uncomment this code block on apps with a postgres volume
-#[mounts]
-# source = "postgres"
-# destination = "/postgres-volume"
+# Comment this code block on apps with a non-persistent postgres database
+[mounts]
+ source = "postgres"
+ destination = "/postgres-volume"
 
 [env]
   PORT = "8080"
-
 
 [experimental]
   allowed_public_ports = []
