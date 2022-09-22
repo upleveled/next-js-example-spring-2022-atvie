@@ -11,7 +11,7 @@ export default function Home() {
       </Head>
 
       <main>
-        <h1>Tierpark updated</h1>
+        <h1>Tierpark</h1>
 
         {/*
           Normal HTML, it will work but the image
