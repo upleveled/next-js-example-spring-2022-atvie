@@ -17,6 +17,10 @@ export default function Cart(props) {
 }
 
 export function getServerSideProps() {
+  if (!process.env.CSRF) {
+    throw Error('process.env.CSRF is not defined');
+  }
+
   return {
     // Anything that you pass in the props
     // object will get passed to the component
