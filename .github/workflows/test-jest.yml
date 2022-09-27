@@ -36,11 +36,6 @@ jobs:
           node-version: '18.x'
       - name: Install deps and build (with cache)
         uses: bahmutov/npm-install@v1
-        # env:
-        #   PGPASSWORD: next_js_example_spring_2022
-        #   PGUSERNAME: next_js_example_spring_2022
-        #   PGHOST: localhost
-        #   PGDATABASE: next_js_example_spring_2022
       - run: yarn migrate up
         # Run ESLint
       - run: yarn eslint . --max-warnings 0
