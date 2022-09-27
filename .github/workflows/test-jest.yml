@@ -35,7 +35,8 @@ jobs:
         with:
           node-version: '16.x'
       - name: Install deps and build (with cache)
-        uses: bahmutov/npm-install@v1
+        # uses: bahmutov/npm-install@v1
+        run: yarn
       - run: yarn migrate up
         # Run ESLint
       - run: yarn eslint . --max-warnings 0
