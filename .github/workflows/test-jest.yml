@@ -12,35 +12,43 @@ jobs:
       postgres:
         image: postgres:14
         env:
+          POSTGRES_USER: next_js_example_spring_2022
+          POSTGRES_PASSWORD: next_js_example_spring_2022
+          POSTGRES_DB: next_js_example_spring_2022
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+      # - name: Start preinstalled PostgreSQL on Ubuntu
+      #   run: |
+      #     sudo systemctl start postgresql.service
+      #     pg_isready
+      # - name: Create database user
+      #   run: |
+      #     sudo -u postgres psql --command="CREATE USER next_js_example_spring_2022 PASSWORD 'next_js_example_spring_2022'" --command="\du"
+      # - name: Create database and allow user
+      #   run: |
+      #     sudo -u postgres createdb --owner=next_js_example_spring_2022 next_js_example_spring_2022
+      # Use the official Checkout action (clones the GitHub repo):
+      # https://github.com/actions/checkout
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2.2.2
+      # Use the official setup-node action (sets up Node.js):
+      # https://github.com/actions/setup-node
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          # - name: Install deps and build (with cache)
+          cache: 'pnpm'
+        # uses: bahmutov/npm-install@v1
+      - run: pnpm install
+        env:
           PGHOST: localhost
           PGDATABASE: next_js_example_spring_2022
           PGUSERNAME: next_js_example_spring_2022
           PGPASSWORD: next_js_example_spring_2022
-        ports:
-          - 5432:5432
-
-    steps:
-      - name: Start preinstalled PostgreSQL on Ubuntu
-        run: |
-          sudo systemctl start postgresql.service
-          pg_isready
-      - name: Create database user
-        run: |
-          sudo -u postgres psql --command="CREATE USER next_js_example_spring_2022 PASSWORD 'next_js_example_spring_2022'" --command="\du"
-      - name: Create database and allow user
-        run: |
-          sudo -u postgres createdb --owner=next_js_example_spring_2022 next_js_example_spring_2022
-      # Use the official Checkout action (clones the GitHub repo):
-      # https://github.com/actions/checkout
-      - uses: actions/checkout@v2
-      # Use the official setup-node action (sets up Node.js):
-      # https://github.com/actions/setup-node
-      - name: Use Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16.x'
-      - name: Install deps and build (with cache)
-        uses: bahmutov/npm-install@v1
       - run: yarn migrate up
         # Run ESLint
       - run: yarn eslint . --max-warnings 0
