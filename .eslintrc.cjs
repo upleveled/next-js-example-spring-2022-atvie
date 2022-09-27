@@ -1,8 +1,3 @@
-require('dotenv-safe').config({
-  path: './.env',
-  allowEmptyValues: true,
-});
-
 module.exports = {
   extends: ['@upleveled/upleveled'],
 
@@ -16,7 +11,8 @@ module.exports = {
           {
             // The URL of the database:
             // databaseUrl:
-            databaseUrl: `postgres://${process.env.PGUSERNAME}:${process.env.PGPASSWORD}@${process.env.PGHOST}:5432/${process.env.PGDATABASE}`,
+            databaseUrl:
+              'postgres://next_js_example_spring_2022:next_js_example_spring_2022@localhost:5432/next_js_example_spring_2022',
 
             // The name of the variable that holds the connection:
             tagName: 'sql',

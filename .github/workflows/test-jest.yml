@@ -8,6 +8,23 @@ jobs:
     # version of Ubuntu (a Linux flavor)
     # https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
     runs-on: ubuntu-latest
+        env:
+      PGHOST: localhost
+      PGDATABASE: next_js_example_spring_2022
+      PGUSERNAME: next_js_example_spring_2022
+      PGPASSWORD: next_js_example_spring_2022
+
+    steps:
+      - name: Start preinstalled PostgreSQL on Ubuntu
+        run: |
+          sudo systemctl start postgresql.service
+          pg_isready
+      - name: Create database user
+        run: |
+          sudo -u postgres psql --command="CREATE USER next_js_example_spring_2022 PASSWORD 'next_js_example_spring_2022'" --command="\du"
+      - name: Create database and allow user
+        run: |
+          sudo -u postgres createdb --owner=next_js_example_spring_2022 next_js_example_spring_2022
     steps:
       # Use the official Checkout action (clones the GitHub repo):
       # https://github.com/actions/checkout
