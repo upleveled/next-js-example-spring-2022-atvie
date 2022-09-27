@@ -8,16 +8,11 @@ jobs:
     # version of Ubuntu (a Linux flavor)
     # https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
     runs-on: ubuntu-latest
-    # services:
-    #   postgres:
-    #     image: postgres:14
-    #     env:
-    #       POSTGRES_USER: next_js_example_spring_2022
-    #       POSTGRES_PASSWORD: next_js_example_spring_2022
-    #       POSTGRES_DB: next_js_example_spring_2022
-    #     ports:
-    #       - 5432:5432
-    #     options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    env:
+      PGPASSWORD: next_js_example_spring_2022
+      PGUSERNAME: next_js_example_spring_2022
+      PGHOST: localhost
+      PGDATABASE: next_js_example_spring_2022
 
     steps:
       - name: Start preinstalled PostgreSQL on Ubuntu
