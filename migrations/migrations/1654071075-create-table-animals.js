@@ -1,3 +1,4 @@
+/* eslint-disable @ts-safeql/check-sql */
 exports.up = async (sql) => {
   await sql`
     CREATE TABLE animals (
