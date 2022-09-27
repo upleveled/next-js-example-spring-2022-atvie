@@ -36,6 +36,7 @@ jobs:
           node-version: '16.x'
       - name: Install deps and build (with cache)
         uses: bahmutov/npm-install@v1
+      - run: yarn migrate up
         # Run ESLint
       - run: yarn eslint . --max-warnings 0
       # Run the Jest unit tests
