@@ -1,5 +1,6 @@
 require('dotenv-safe').config({
   path: './.env',
+  allowEmptyValues: true,
 });
 
 module.exports = {
