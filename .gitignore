@@ -6,6 +6,16 @@
 /.pnp
 .pnp.js
 
+# temporary addition
+migrations/1654071853-insert-animals.js
+migrations/1654077925-create-table-foods.js
+migrations/1654077939-insert-foods.js
+migrations/1654077945-create-table-animals_foods.js
+migrations/1654077951-insert-animals_foods.js
+migrations/1655800386-create-table-users.js
+migrations/1655885327-create-table-sessions.js
+migrations/1655885329-alter-table-sessions.js
+
 # testing
 /coverage
 
