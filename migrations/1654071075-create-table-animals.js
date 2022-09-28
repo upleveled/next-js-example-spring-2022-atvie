@@ -1,4 +1,3 @@
-/* eslint-disable @ts-safeql/check-sql */
 exports.up = async (sql) => {
   await sql`
     CREATE TABLE animals (
@@ -7,5 +6,11 @@ exports.up = async (sql) => {
       type varchar(40) NOT NULL,
       accessory varchar(40) NOT NULL
     )
+  `;
+};
+
+exports.down = async (sql) => {
+  await sql`
+    DROP TABLE animals
   `;
 };
