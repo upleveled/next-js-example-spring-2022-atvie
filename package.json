@@ -17,10 +17,11 @@
     "cookie": "^0.5.0",
     "csrf": "^3.1.0",
     "dotenv-safe": "^8.2.0",
+    "esbuild": "^0.15.8",
     "js-cookie": "^3.0.1",
     "next": "12.1.6",
     "pg-connection-string": "^2.5.0",
-    "postgres": "^3.2.4",
+    "postgres": "porsager/postgres",
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "sharp": "^0.30.5"
@@ -31,6 +32,7 @@
     "@playwright/test": "^1.22.2",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
+    "@ts-safeql/eslint-plugin": "^0.0.12",
     "@types/bcrypt": "^5.0.0",
     "@types/cookie": "^0.5.1",
     "@types/dotenv-safe": "^8.1.2",
@@ -38,8 +40,8 @@
     "@types/node": "17.0.31",
     "@types/react": "18.0.8",
     "@types/react-dom": "18.0.3",
-    "@typescript-eslint/eslint-plugin": "5.22.0",
-    "@typescript-eslint/parser": "5.22.0",
+    "@typescript-eslint/eslint-plugin": "5.38.0",
+    "@typescript-eslint/parser": "5.38.0",
     "@upleveled/eslint-config-upleveled": "2.11.0",
     "@upleveled/eslint-plugin-upleveled": "2.1.5",
     "dotenv-cli": "^5.1.0",
@@ -51,7 +53,6 @@
     "eslint-plugin-flowtype": "8.0.3",
     "eslint-plugin-import": "2.26.0",
     "eslint-plugin-jest": "26.1.5",
-    "eslint-plugin-jsx-a11y": "6.5.1",
     "eslint-plugin-react": "7.29.4",
     "eslint-plugin-react-hooks": "4.5.0",
     "eslint-plugin-security": "1.5.0",
@@ -61,17 +62,18 @@
     "jest": "^28.1.1",
     "jest-environment-jsdom": "^28.1.1",
     "ley": "^0.7.1",
+    "libpg-query": "^13.2.5",
     "playwright": "^1.22.2",
     "typescript": "4.6.4"
   },
   "resolutions": {
-    "@typescript-eslint/eslint-plugin": "5.22.0",
-    "@typescript-eslint/parser": "5.22.0",
+    "@typescript-eslint/eslint-plugin": "5.38.0",
+    "@typescript-eslint/parser": "5.38.0",
     "eslint-plugin-import": "2.26.0",
     "eslint-plugin-jest": "26.1.5",
     "eslint-plugin-react": "7.29.4",
     "eslint-plugin-react-hooks": "4.5.0",
-    "@typescript-eslint/utils": "5.22.0"
+    "@typescript-eslint/utils": "5.38.0"
   },
   "cacheDirectories": [
     ".next/cache"
