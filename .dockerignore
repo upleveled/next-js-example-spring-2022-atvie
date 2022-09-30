@@ -3,17 +3,21 @@ build
 README.md
 
 # Next.js
+out
 .vercel
 .next
 .tsbuildinfo
 
 # Tests
 test-results
+coverage
 
-# Package manager
+# dependencies
 node_modules
 yarn-debug.log
 yarn-error.log
+.pnp
+.pnp.js
 
 # Git and GitHub
 .git
@@ -25,6 +29,3 @@ yarn-error.log
 # Docker
 Dockerfile
 .dockerignore
-
-# from Fly.io template
-coverage
