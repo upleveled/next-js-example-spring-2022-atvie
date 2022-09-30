@@ -14,7 +14,7 @@ ENV NODE_ENV production
 RUN apk add postgresql
 
 COPY --from=builder /app ./
-RUN chmod +x /app/postgres-init.sh
+RUN chmod +x /app/fly-io-start.sh
 
 ENV PORT 8080
 
