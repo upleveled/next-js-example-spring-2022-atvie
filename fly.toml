@@ -6,9 +6,9 @@ kill_timeout = 5
 processes = []
 
 # Remove this code block on apps with a non-persistent Postgres database
-# [mounts]
-# source = "postgres"
-# destination = "/postgres-volume"
+[mounts]
+  source = "postgres"
+  destination = "/postgres-volume"
 
 [env]
   PORT = "8080"
