@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "migrate": "dotenv ley",
-    "fly-postbuild": "./postgres-init.sh && yarn migrate up && yarn start"
+    "migrate": "dotenv ley"
   },
   "dependencies": {
     "@emotion/react": "^11.9.0",
