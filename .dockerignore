@@ -1,15 +1,30 @@
-.dockerignore
 .env
-.eslintcache
-.git
+build
+README.md
+
+# Next.js
+.vercel
 .next
 .tsbuildinfo
-.vercel
-build
-coverage
-Dockerfile
-node_modules
-README.md
+
+# Tests
 test-results
+
+# Package manager
+node_modules
 yarn-debug.log
 yarn-error.log
+
+# Git and GitHub
+.git
+
+# ESLint
+.eslintcache
+.eslintignore
+
+# Docker
+Dockerfile
+.dockerignore
+
+# from Fly.io template
+coverage
