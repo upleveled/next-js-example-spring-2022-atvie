@@ -18,4 +18,4 @@ RUN chmod +x /app/postgres-init.sh
 
 ENV PORT 8080
 
-CMD ["yarn", "fly-postbuild"]
+CMD ["./postgres-init.sh"]
