@@ -16,12 +16,12 @@ then
   psql -U postgres postgres --command="CREATE USER $PGUSERNAME PASSWORD '$PGPASSWORD'"
   createdb -U postgres --owner=$PGUSERNAME $PGDATABASE
 else
-  mkdir /postgres-volume/data /postgres-volume/run
-  chown postgres:postgres /postgres-volume/data /postgres-volume/run
-  [ ! -f /postgres-volume/data/postgresql.conf ] && su postgres -c "initdb -D /  postgres-volume/data"
-  sed -i 's/run\/postgresql/postgres-volume\/run/g' /postgres-volume/data/postgresql.conf
-  grep -qxF "listen_addresses='*'" /postgres-volume/data/postgresql.conf || echo   "listen_addresses='*'" >> /postgres-volume/data/postgresql.conf
-  [ ! -f /postgres-volume/data/postmaster.pid ] && su postgres -c "pg_ctl start -D /  postgres-volume/data" || su postgres -c "pg_ctl restart -D /postgres-volume/data"
+  mkdir -p /postgres-volume/run/postgresql/data/
+  chown postgres:postgres /postgres-volume/run/postgresql/data /postgres-volume/run/postgresql/
+  [ ! -f  /postgres-volume/run/postgresql/data/postgresql.conf ] && su postgres -c "initdb -D /postgres-volume/run/postgresql/data"
+  sed -i 's/run\/postgresql/postgres-volume\/run\/postgresql/g'  /postgres-volume/run/postgresql/data/postgresql.conf
+  grep -qxF "listen_addresses='*'"  /postgres-volume/run/postgresql/data/postgresql.conf || echo   "listen_addresses='*'" >>  /postgres-volume/run/postgresql/data/postgresql.conf
+  [ ! -f  /postgres-volume/run/postgresql/data/postmaster.pid ] && su postgres -c "pg_ctl start -D /postgres-volume/run/postgresql/data" || su postgres -c "pg_ctl restart -D  /postgres-volume/run/postgresql/data"
   psql -U postgres postgres --command="CREATE USER $PGUSERNAME PASSWORD'$PGPASSWORD'" ||    echo "User already exists"
   createdb -U postgres --owner=$PGUSERNAME $PGDATABASE || echo "Database already exists"
 fi
