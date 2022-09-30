@@ -18,4 +18,4 @@ RUN chmod +x /app/postgres-init.sh
 
 ENV PORT 8080
 
-CMD ["./postgres-init.sh"]
+CMD ["./fly-io-start.sh"]
