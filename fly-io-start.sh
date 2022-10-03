@@ -2,9 +2,9 @@
 
 # Only initialize database on Fly.io environtment
 if [ -z ${FLY_APP_NAME+x} ]
-then
-  yarn start
-  exit 0
+  then
+    yarn start
+    exit 0
 fi
 
 # Add postgres volume path when it exist
