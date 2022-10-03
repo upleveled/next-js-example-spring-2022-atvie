@@ -5,16 +5,15 @@
 README.md
 
 # Next.js
-out
 build
 .vercel
 .next
-.tsbuildinfo
 
 # Tests
 test-results
-coverage
 playwright.config.ts
+coverage
+*/__tests__
 jest.config.js
 
 # dependencies
@@ -31,8 +30,12 @@ yarn-error.log
 # ESLint + Formatter
 .eslintcache
 .eslintignore
+.eslintrc
 prettier.config.cjs
 
 # Docker
 Dockerfile
 .dockerignore
+
+# Typescript
+.tsbuildinfo
