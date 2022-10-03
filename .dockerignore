@@ -1,9 +1,12 @@
-.env
-build
+# Local Files
+*.env
+.env*.local
+*.sql
 README.md
 
 # Next.js
 out
+build
 .vercel
 .next
 .tsbuildinfo
@@ -11,6 +14,8 @@ out
 # Tests
 test-results
 coverage
+playwright.config.ts
+jest.config.js
 
 # dependencies
 node_modules
@@ -21,10 +26,12 @@ yarn-error.log
 
 # Git and GitHub
 .git
+.github
 
-# ESLint
+# ESLint + Formatter
 .eslintcache
 .eslintignore
+prettier.config.cjs
 
 # Docker
 Dockerfile
