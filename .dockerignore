@@ -1,9 +1,8 @@
 # Environmental Variables
 *.env
-.env*.example
+.env.test
 .env*.local
-.env*.production
-.env*.development
+.env.development
 
 # Local Files
 *.sql
