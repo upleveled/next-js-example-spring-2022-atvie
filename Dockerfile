@@ -11,7 +11,7 @@ FROM node:16-alpine AS runner
 RUN apk add postgresql
 WORKDIR /app
 
-# Copy builded app
+# Copy built app
 COPY --from=builder /app/.next ./.next
 
 # Copy only necessary files to run the app to minimize production app size and improve performance
