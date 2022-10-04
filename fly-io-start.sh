@@ -1,22 +1,15 @@
 #! /bin/sh
 
-# Only use yarn start outside of Fly.io environment
-if [ -z ${FLY_APP_NAME+x} ]
-  then
-    yarn start
-    exit 0
-fi
-
-# Add postgres volume path when it exist
+# Add Postgres volume path when it exist
 [ -d "../postgres-volume" ] && VOLUME_PATH=/postgres-volume
 
 # Create and add permissions to folders for PostgreSQL
 mkdir -p $VOLUME_PATH/run/postgresql/data/
-chown postgres:postgres $VOLUME_PATH/run/postgresql/data/ $VOLUME_PATH/run/postgresql/
+chown postgres:postgres $VOLUME_PATH/run/postgresql/ $VOLUME_PATH/run/postgresql/data/
 
 # Initialize and configure the database
 [ ! -f $VOLUME_PATH/run/postgresql/data/postgresql.conf ] && su postgres -c "initdb -D $VOLUME_PATH/run/postgresql/data/"
-sed -i "s/'\/run\/postgresql\'/'\/postgres-volume\/run\/postgresql'/g" /postgres-volume/run/postgresql/data/postgresql.conf || echo "postgres volume not mounted"
+sed -i "s/'\/run\/postgresql\'/'\/postgres-volume\/run\/postgresql'/g" /postgres-volume/run/postgresql/data/postgresql.conf || echo "Postgres volume not mounted"
 grep -qxF "listen_addresses='*'"  $VOLUME_PATH/run/postgresql/data/postgresql.conf || echo "listen_addresses='*'" >>  $VOLUME_PATH/run/postgresql/datapostgresql.conf
 
 # Start the database server
