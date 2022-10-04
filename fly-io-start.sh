@@ -27,5 +27,5 @@ psql -U postgres postgres --command="CREATE USER $PGUSERNAME PASSWORD '$PGPASSWO
 createdb -U postgres --owner=$PGUSERNAME $PGDATABASE || echo "Database already exists"
 
 # Run migrations and start the production server
-yarn migrate up
-yarn start
+node /app/node_modules/ley/bin.js up
+node /app/node_modules/next/dist/bin/next start

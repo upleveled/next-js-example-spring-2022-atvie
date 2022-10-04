@@ -10,8 +10,19 @@ RUN yarn build
 FROM node:16-alpine AS runner
 RUN apk add postgresql
 WORKDIR /app
-COPY --from=builder /app ./
+
+# Copy builded app
+COPY --from=builder /app/.next ./.next
+
+# Copy only necesary files to run the app
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/migrations ./migrations
+COPY --from=builder /app/public ./public
+
+# Copy start script and make it an executable
+COPY --from=builder /app/fly-io-start.sh ./
 RUN chmod +x /app/fly-io-start.sh
+
 ENV NODE_ENV production
 ENV PORT 8080
 
