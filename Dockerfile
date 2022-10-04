@@ -19,7 +19,7 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/migrations ./migrations
 COPY --from=builder /app/public ./public
 
-# Copy start script and make it an executable
+# Copy start script and make it executable
 COPY --from=builder /app/fly-io-start.sh ./
 RUN chmod +x /app/fly-io-start.sh
 
