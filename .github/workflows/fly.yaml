@@ -1,10 +1,10 @@
-name: Fly Deploy
+name: Fly.io Deploy
 on: [push]
 env:
   FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 jobs:
   deploy:
-    name: Deploy app
+    name: Deploy to Fly.io
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
