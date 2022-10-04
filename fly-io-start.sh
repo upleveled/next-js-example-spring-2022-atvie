@@ -1,6 +1,6 @@
 #! /bin/sh
 
-# Only use yarn start outside of Fly.io environtment
+# Only use yarn start outside of Fly.io environment
 if [ -z ${FLY_APP_NAME+x} ]
   then
     yarn start
