@@ -10,7 +10,7 @@ fi
 # Add postgres volume path when it exist
 [ -d "../postgres-volume" ] && VOLUME_PATH=/postgres-volume
 
-# Create and add permissions to directories that allocate the database
+# Create and add permissions to folders for PostgreSQL
 mkdir -p $VOLUME_PATH/run/postgresql/data/
 chown postgres:postgres $VOLUME_PATH/run/postgresql/data/ $VOLUME_PATH/run/postgresql/
 
