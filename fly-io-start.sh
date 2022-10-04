@@ -22,7 +22,7 @@ grep -qxF "listen_addresses='*'"  $VOLUME_PATH/run/postgresql/data/postgresql.co
 # Start the database server
 su postgres -c "pg_ctl restart -D /postgres-volume/run/postgresql/data/" || su postgres -c "pg_ctl start -D $VOLUME_PATH/run/postgresql/data/"
 
-# Use the credentials from secrets to create user and database when needed
+# Use the credentials from Fly.io secrets to create user and database when needed
 psql -U postgres postgres --command="CREATE USER $PGUSERNAME PASSWORD '$PGPASSWORD'" || echo "User already exists"
 createdb -U postgres --owner=$PGUSERNAME $PGDATABASE || echo "Database already exists"
 
