@@ -24,8 +24,6 @@ jest.config.js
 node_modules
 yarn-debug.log
 yarn-error.log
-.pnp
-.pnp.js
 
 # Git and GitHub
 .git
