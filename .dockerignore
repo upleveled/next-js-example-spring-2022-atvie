@@ -1,6 +1,11 @@
-# Local Files
+# Environmental Variables
 *.env
+.env*.example
 .env*.local
+.env*.production
+.env*.development
+
+# Local Files
 *.sql
 README.md
 
