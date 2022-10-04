@@ -1,6 +1,6 @@
 #! /bin/sh
 
-# Only initialize database on Fly.io environtment
+# Only use yarn start outside of Fly.io environtment
 if [ -z ${FLY_APP_NAME+x} ]
   then
     yarn start
