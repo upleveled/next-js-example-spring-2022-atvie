@@ -1,5 +1,3 @@
-# fly.toml file generated for quiet-sun-5920 on 2022-08-30T13:08:16+02:00
-
 app = "next-js-example-spring-2022"
 kill_signal = "SIGINT"
 kill_timeout = 5
