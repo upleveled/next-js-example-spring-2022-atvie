@@ -12,9 +12,8 @@ function connectOneTimeToDatabase() {
   if (!globalThis.postgresSqlClient) {
     globalThis.postgresSqlClient = postgres();
   }
-  const sql = globalThis.postgresSqlClient;
 
-  return sql;
+  return globalThis.postgresSqlClient;
 }
 
 // Connect to PostgreSQL
