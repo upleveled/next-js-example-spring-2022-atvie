@@ -16,7 +16,7 @@ coverage
 */__tests__
 jest.config.js
 
-# dependencies
+# Dependencies
 node_modules
 yarn-debug.log
 yarn-error.log
@@ -27,7 +27,7 @@ yarn-error.log
 .git
 .github
 
-# ESLint + Formatter
+# Lint and Formatter
 .eslintcache
 .eslintignore
 .eslintrc
