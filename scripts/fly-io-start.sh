@@ -6,7 +6,7 @@ set -e
 # Set volume path for use in PostgreSQL paths if volume directory exists
 [ -d "../postgres-volume" ] && VOLUME_PATH=/postgres-volume
 
-# Create ENV variable when database need to be initialized
+# Create identifier when database is created from scratch
 [ ! -f $VOLUME_PATH/run/postgresql/data/postgresql.conf ] && IS_DATABASE_FRESH=true
 
 # Create and add permissions to folders for PostgreSQL
