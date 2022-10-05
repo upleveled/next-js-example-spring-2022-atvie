@@ -15,7 +15,7 @@ WORKDIR /app
 # Copy built app
 COPY --from=builder /app/.next ./.next
 
-# Copy only necessary files to run the app to minimize production app size and improve performance
+# Copy only necessary files to run the app (minimize production app size, improve performance)
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/migrations ./migrations
 COPY --from=builder /app/public ./public
