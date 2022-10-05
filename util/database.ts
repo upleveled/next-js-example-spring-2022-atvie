@@ -246,7 +246,7 @@ export async function createSession(
 
 type SessionWithCSRFSecret = Session & { csrfSecret: string };
 
-export async function getValidSessionByToken(token: string) {
+export async function getValidSessionByToken(token: string | undefined) {
   if (!token) return undefined;
 
   const [session] = await sql<[SessionWithCSRFSecret | undefined]>`
