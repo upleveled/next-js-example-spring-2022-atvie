@@ -22,7 +22,7 @@ sed -i "s/'\/run\/postgresql\'/'\/postgres-volume\/run\/postgresql'/g" /postgres
 # Configure PostgreSQL to listen requests by adding a configuration string only once
 grep -qxF "listen_addresses='*'"  $VOLUME_PATH/run/postgresql/data/postgresql.conf || echo "listen_addresses='*'" >>  $VOLUME_PATH/run/postgresql/datapostgresql.conf
 
-# Start the database server
+# Restart after app with volume is redeployed or Start after database is created
 su postgres -c "pg_ctl restart -D /postgres-volume/run/postgresql/data/" || su postgres -c "pg_ctl start -D $VOLUME_PATH/run/postgresql/data/"
 
 # Use the credentials from Fly.io secrets to create user and database when needed
