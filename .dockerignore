@@ -41,5 +41,5 @@ prettier.config.cjs
 Dockerfile
 .dockerignore
 
-# TypeScript
+# TypeScript cache
 .tsbuildinfo
