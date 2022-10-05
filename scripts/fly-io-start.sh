@@ -3,8 +3,8 @@
 # Exit if any command exits with a non-zero exit code
 set -e
 
-# Add Postgres volume path when it exist
-[ -d "../postgres-volume" ] && VOLUME_PATH=/postgres-volume
+# Set path prefix if volume directory exists
+[ -d "../postgres-volume" ] && VOLUME_PATH_PREFIX=/postgres-volume
 
 # Create ENV variable when database need to be initialized
 [ ! -f $VOLUME_PATH/run/postgresql/data/postgresql.conf ] && DATABASE_INIT="1"
