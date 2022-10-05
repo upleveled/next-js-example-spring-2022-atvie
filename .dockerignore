@@ -1,4 +1,4 @@
-# Environmental Variables
+# Secrets
 *.env
 .env.test
 .env*.local
