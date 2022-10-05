@@ -10,7 +10,16 @@ declare module globalThis {
 // https://github.com/vercel/next.js/issues/7811#issuecomment-715259370
 function connectOneTimeToDatabase() {
   if (!globalThis.postgresSqlClient) {
-    globalThis.postgresSqlClient = postgres();
+    globalThis.postgresSqlClient = postgres({
+      transform: {
+        ...postgres.camel,
+
+        // Future version of postgres will support this
+        // type of conversion setting
+        // ...postgres.camel,
+        undefined: null,
+      },
+    });
   }
 
   return globalThis.postgresSqlClient;
