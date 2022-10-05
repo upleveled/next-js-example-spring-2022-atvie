@@ -4,7 +4,7 @@
 set -e
 
 # Set PostgreSQL path prefix if volume directory exists
-[ -d "../postgres-volume" ] && VOLUME_PATH_PREFIX=/postgres-volume
+[ -d "../postgres-volume" ] && VOLUME_PATH=/postgres-volume
 
 # Create ENV variable when database need to be initialized
 [ ! -f $VOLUME_PATH/run/postgresql/data/postgresql.conf ] && DATABASE_INIT="1"
