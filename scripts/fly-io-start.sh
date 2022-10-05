@@ -3,7 +3,7 @@
 # Exit if any command exits with a non-zero exit code
 set -e
 
-# Set path prefix if volume directory exists
+# Set PostgreSQL path prefix if volume directory exists
 [ -d "../postgres-volume" ] && VOLUME_PATH_PREFIX=/postgres-volume
 
 # Create ENV variable when database need to be initialized
