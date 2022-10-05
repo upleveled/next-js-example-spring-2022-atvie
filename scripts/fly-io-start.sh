@@ -6,7 +6,9 @@ set -e
 # Set volume path for use in PostgreSQL paths if volume directory exists
 [ -d "../postgres-volume" ] && VOLUME_PATH=/postgres-volume
 
-# Create identifier when database is created from scratch
+# Create identifier when database is created from scratch, this may happen when:
+# App is deployed or redeployed in a non-volume configuration
+# First time the app is deployed in a volume configuration
 [ ! -f $VOLUME_PATH/run/postgresql/data/postgresql.conf ] && SHOULD_INIT_DATABASE=true
 
 # Create and add permissions to folders for PostgreSQL
@@ -16,8 +18,8 @@ chown postgres:postgres $VOLUME_PATH/run/postgresql/ $VOLUME_PATH/run/postgresql
 # Initialize a database in the data directory
 [ $SHOULD_INIT_DATABASE == true ] && su postgres -c "initdb -D $VOLUME_PATH/run/postgresql/data/"
 
-# Configure PostgreSQL to read configuration file from the volume location when a Postgres volume exist
-sed -i "s/'\/run\/postgresql'/'\/postgres-volume\/run\/postgresql'/g" /postgres-volume/run/postgresql/data/postgresql.conf || echo "Postgres volume not mounted, running app with a non-persistent database"
+# Configure PostgreSQL to read configuration file from the volume location when a PostgreSQL volume exist
+sed -i "s/'\/run\/postgresql'/'\/postgres-volume\/run\/postgresql'/g" /postgres-volume/run/postgresql/data/postgresql.conf || echo "PostgreSQL volume not mounted, running app with a non-persistent database"
 
 # Configure PostgreSQL to listen requests by adding a configuration string only once
 grep -qxF "listen_addresses='*'"  $VOLUME_PATH/run/postgresql/data/postgresql.conf || echo "listen_addresses='*'" >>  $VOLUME_PATH/run/postgresql/datapostgresql.conf
