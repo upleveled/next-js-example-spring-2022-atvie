@@ -1,17 +1,20 @@
-#! /bin/sh
+#!/usr/bin/env bash
+
+# Exit if any command exits with a non-zero exit code
+set -e
 
 # Add Postgres volume path when it exist
 [ -d "../postgres-volume" ] && VOLUME_PATH=/postgres-volume
 
 # Create ENV variable when database need to be initialized
-[ ! -f $VOLUME_PATH/run/postgresql/data/postgresql.conf ] && DATABASE_INIT=1
+[ ! -f $VOLUME_PATH/run/postgresql/data/postgresql.conf ] && DATABASE_INIT="1"
 
 # Create and add permissions to folders for PostgreSQL
 mkdir -p $VOLUME_PATH/run/postgresql/data/
 chown postgres:postgres $VOLUME_PATH/run/postgresql/ $VOLUME_PATH/run/postgresql/data/
 
 # Initialize a database in the data directory
-[ $DATABASE_INIT == 1 ] && su postgres -c "initdb -D $VOLUME_PATH/run/postgresql/data/"
+[ $DATABASE_INIT == "1" ] && su postgres -c "initdb -D $VOLUME_PATH/run/postgresql/data/"
 
 # Configure PostgreSQL to read configuration file from the volume location when a Postgres volume exist
 sed -i "s/'\/run\/postgresql\'/'\/postgres-volume\/run\/postgresql'/g" /postgres-volume/run/postgresql/data/postgresql.conf || echo "Postgres volume not mounted"
@@ -23,8 +26,8 @@ grep -qxF "listen_addresses='*'"  $VOLUME_PATH/run/postgresql/data/postgresql.co
 su postgres -c "pg_ctl restart -D /postgres-volume/run/postgresql/data/" || su postgres -c "pg_ctl start -D $VOLUME_PATH/run/postgresql/data/"
 
 # Use the credentials from Fly.io secrets to create user and database when needed
-[ $DATABASE_INIT == 1 ] && psql -U postgres postgres --command="CREATE USER $PGUSERNAME PASSWORD '$PGPASSWORD'"
-[ $DATABASE_INIT == 1 ] && createdb -U postgres --owner=$PGUSERNAME $PGDATABASE
+[ $DATABASE_INIT == "1" ] && psql -U postgres postgres --command="CREATE USER $PGUSERNAME PASSWORD '$PGPASSWORD'"
+[ $DATABASE_INIT == "1" ] && createdb -U postgres --owner=$PGUSERNAME $PGDATABASE
 
 # Run migrations and start the production server
 node /app/node_modules/ley/bin.js up
