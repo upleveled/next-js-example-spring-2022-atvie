@@ -13,10 +13,6 @@ function connectOneTimeToDatabase() {
     globalThis.postgresSqlClient = postgres({
       transform: {
         ...postgres.camel,
-
-        // Future version of postgres will support this
-        // type of conversion setting
-        // ...postgres.camel,
         undefined: null,
       },
     });
