@@ -37,7 +37,7 @@ export default async function handler(
   const csrfToken = req.body.csrfToken;
 
   // 2. we get the sessionToken from the cookies
-  const sessionToken = req.cookies.sessionToken || '';
+  const sessionToken = req.cookies.sessionToken;
 
   // 3. we get the session for this session Token
   const session = await getValidSessionByToken(sessionToken);
