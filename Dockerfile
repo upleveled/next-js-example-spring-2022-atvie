@@ -1,13 +1,14 @@
 # Install dependencies and build app
-FROM node:16-alpine AS builder
+FROM node:alpine3.16 AS builder
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 COPY . .
+ENV NODE_ENV production
 RUN yarn install --frozen-lockfile
 RUN yarn build
 
 # Initialize production layer
-FROM node:16-alpine AS runner
+FROM node:alpine3.16 AS runner
 RUN apk add postgresql
 WORKDIR /app
 

@@ -27,7 +27,7 @@ export default function UserDetail(props: Props) {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const user = await getUserByValidSessionToken(
-    context.req.cookies.sessionToken,
+    context.req.cookies.sessionToken || '',
   );
 
   if (user) {
