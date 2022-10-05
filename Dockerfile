@@ -21,7 +21,7 @@ COPY --from=builder /app/migrations ./migrations
 COPY --from=builder /app/public ./public
 
 # Copy start script and make it executable
-COPY --from=builder /app/fly-io-start.sh ./
+COPY --from=builder /app/scripts/fly-io-start.sh ./
 RUN chmod +x /app/fly-io-start.sh
 
 ENV NODE_ENV production
