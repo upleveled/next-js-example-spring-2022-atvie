@@ -18,8 +18,8 @@ chown postgres:postgres $VOLUME_PATH/run/postgresql/ $VOLUME_PATH/run/postgresql
 # Initialize a database in the data directory
 [ $SHOULD_INIT_DATABASE == true ] && su postgres -c "initdb -D $VOLUME_PATH/run/postgresql/data/"
 
-# Configure PostgreSQL to read configuration file from the volume location when a PostgreSQL volume exist
-sed -i "s/'\/run\/postgresql'/'\/postgres-volume\/run\/postgresql'/g" /postgres-volume/run/postgresql/data/postgresql.conf || echo "PostgreSQL volume not mounted, non-persistent database (new deploys erase changes not saved in migrations)"
+# Update PostgreSQL config path to use volume location if app has a volume
+sed -i "s/'\/run\/postgresql'/'\/postgres-volume\/run\/postgresql'/g" /postgres-volume/run/postgresql/data/postgresql.conf || echo "PostgreSQL volume not mounted, running database as non-persistent (new deploys erase changes not saved in migrations)"
 
 # Configure PostgreSQL to listen requests by adding a configuration string only once
 grep -qxF "listen_addresses='*'"  $VOLUME_PATH/run/postgresql/data/postgresql.conf || echo "listen_addresses='*'" >>  $VOLUME_PATH/run/postgresql/datapostgresql.conf
