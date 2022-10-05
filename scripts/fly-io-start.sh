@@ -31,6 +31,5 @@ su postgres -c "pg_ctl restart -D /postgres-volume/run/postgresql/data/" || su p
 [ $SHOULD_INIT_DATABASE == true ] && psql -U postgres postgres --command="CREATE USER $PGUSERNAME PASSWORD '$PGPASSWORD'"
 [ $SHOULD_INIT_DATABASE == true ] && createdb -U postgres --owner=$PGUSERNAME $PGDATABASE
 
-# Run migrations and start the production server directly from node to avoid having package.json in production
-node /app/node_modules/ley/bin.js up
-node /app/node_modules/next/dist/bin/next start
+yarn migrate up
+yarn start
