@@ -16,7 +16,7 @@ build
 .next
 
 # Tests
-test-results
+playwright
 playwright.config.ts
 coverage
 */__tests__
