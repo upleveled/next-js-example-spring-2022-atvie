@@ -7,14 +7,14 @@ set -e
 [ -d "../postgres-volume" ] && VOLUME_PATH=/postgres-volume
 
 # Create identifier when database is created from scratch
-[ ! -f $VOLUME_PATH/run/postgresql/data/postgresql.conf ] && IS_DATABASE_FRESH=true
+[ ! -f $VOLUME_PATH/run/postgresql/data/postgresql.conf ] && SHOULD_INIT_DATABASE=true
 
 # Create and add permissions to folders for PostgreSQL
 mkdir -p $VOLUME_PATH/run/postgresql/data/
 chown postgres:postgres $VOLUME_PATH/run/postgresql/ $VOLUME_PATH/run/postgresql/data/
 
 # Initialize a database in the data directory
-[ $IS_DATABASE_FRESH == true ] && su postgres -c "initdb -D $VOLUME_PATH/run/postgresql/data/"
+[ $SHOULD_INIT_DATABASE == true ] && su postgres -c "initdb -D $VOLUME_PATH/run/postgresql/data/"
 
 # Configure PostgreSQL to read configuration file from the volume location when a Postgres volume exist
 sed -i "s/'\/run\/postgresql\'/'\/postgres-volume\/run\/postgresql'/g" /postgres-volume/run/postgresql/data/postgresql.conf || echo "Postgres volume not mounted"
@@ -28,8 +28,8 @@ grep -qxF "listen_addresses='*'"  $VOLUME_PATH/run/postgresql/data/postgresql.co
 su postgres -c "pg_ctl restart -D /postgres-volume/run/postgresql/data/" || su postgres -c "pg_ctl start -D $VOLUME_PATH/run/postgresql/data/"
 
 # Use the credentials from Fly.io secrets to create user and database when needed
-[ $IS_DATABASE_FRESH == true ] && psql -U postgres postgres --command="CREATE USER $PGUSERNAME PASSWORD '$PGPASSWORD'"
-[ $IS_DATABASE_FRESH == true ] && createdb -U postgres --owner=$PGUSERNAME $PGDATABASE
+[ $SHOULD_INIT_DATABASE == true ] && psql -U postgres postgres --command="CREATE USER $PGUSERNAME PASSWORD '$PGPASSWORD'"
+[ $SHOULD_INIT_DATABASE == true ] && createdb -U postgres --owner=$PGUSERNAME $PGDATABASE
 
 # Run migrations and start the production server directly from node to avoid having package.json in production
 node /app/node_modules/ley/bin.js up
