@@ -31,7 +31,7 @@ yarn-error.log
 .git
 .github
 
-# Lint and Formatter
+# Linting, formatting config
 .eslintcache
 .eslintignore
 .eslintrc
