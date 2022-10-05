@@ -9,7 +9,7 @@ RUN yarn build
 
 # Initialize production layer
 FROM node:alpine3.16 AS runner
-RUN apk add postgresql bash
+RUN apk add bash postgresql
 WORKDIR /app
 
 # Copy built app
