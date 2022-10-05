@@ -4,8 +4,10 @@
 .env*.local
 .env.development
 
-# Local Files
+# Scripts
 *.sql
+
+# Documentation
 README.md
 
 # Next.js
