@@ -262,7 +262,7 @@ export async function getValidSessionByToken(token: string | undefined) {
   return session && camelcaseKeys(session);
 }
 
-export async function getUserByValidSessionToken(token: string) {
+export async function getUserByValidSessionToken(token: string | undefined) {
   if (!token) return undefined;
 
   const [user] = await sql<[User | undefined]>`
