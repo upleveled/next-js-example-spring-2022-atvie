@@ -6,9 +6,9 @@ set -e
 # Set volume path for use in PostgreSQL paths if volume directory exists
 [ -d "../postgres-volume" ] && VOLUME_PATH=/postgres-volume
 
-# Create identifier when database is created from scratch, this may happen when:
-# App is deployed or redeployed in a non-volume configuration
-# First time the app is deployed in a volume configuration
+# Set flag to initialize database when database config file doesn't exist yet, this happens during:
+# 1. Deployment / redeployment of an app without a volume
+# 2. First deployment of an app with a volume
 [ ! -f $VOLUME_PATH/run/postgresql/data/postgresql.conf ] && SHOULD_INIT_DATABASE=true
 
 # Create and add permissions to folders for PostgreSQL
