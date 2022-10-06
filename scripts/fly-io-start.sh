@@ -15,7 +15,7 @@ set -e
 mkdir -p $VOLUME_PATH/run/postgresql/data/
 chown postgres:postgres $VOLUME_PATH/run/postgresql/ $VOLUME_PATH/run/postgresql/data/
 
-if [ $SHOULD_INIT_DATABASE == true ]
+if [[ $SHOULD_INIT_DATABASE == true ]]
 then
 # Initialize a database in the data directory
 su postgres -c "initdb -D $VOLUME_PATH/run/postgresql/data/"
