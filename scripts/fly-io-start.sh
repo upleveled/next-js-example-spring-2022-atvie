@@ -15,8 +15,10 @@ set -e
 mkdir -p $VOLUME_PATH/run/postgresql/data/
 chown postgres:postgres $VOLUME_PATH/run/postgresql/ $VOLUME_PATH/run/postgresql/data/
 
+if [ $SHOULD_INIT_DATABASE == true ]
+then
 # Initialize a database in the data directory
-[ $SHOULD_INIT_DATABASE == true ] && su postgres -c "initdb -D $VOLUME_PATH/run/postgresql/data/"
+su postgres -c "initdb -D $VOLUME_PATH/run/postgresql/data/"
 
 # Update PostgreSQL config path to use volume location if app has a volume
 sed -i "s/'\/run\/postgresql'/'\/postgres-volume\/run\/postgresql'/g" /postgres-volume/run/postgresql/data/postgresql.conf || echo "PostgreSQL volume not mounted, running database as non-persistent (new deploys erase changes not saved in migrations)"
@@ -24,14 +26,17 @@ sed -i "s/'\/run\/postgresql'/'\/postgres-volume\/run\/postgresql'/g" /postgres-
 # Configure PostgreSQL to listen requests by adding a configuration string only once
 grep -qxF "listen_addresses='*'"  $VOLUME_PATH/run/postgresql/data/postgresql.conf || echo "listen_addresses='*'" >>  $VOLUME_PATH/run/postgresql/datapostgresql.conf
 
-# Either:
-# 1. Restart database after app with a volume is redeployed
-# 2. Start database after database is created
-su postgres -c "pg_ctl restart -D /postgres-volume/run/postgresql/data/" || su postgres -c "pg_ctl start -D $VOLUME_PATH/run/postgresql/data/"
+# Start database after database is created
+su postgres -c "pg_ctl start -D $VOLUME_PATH/run/postgresql/data/"
 
-# If necessary, create user and database with credentials from Fly.io secrets
-[ $SHOULD_INIT_DATABASE == true ] && psql -U postgres postgres --command="CREATE USER $PGUSERNAME PASSWORD '$PGPASSWORD'"
-[ $SHOULD_INIT_DATABASE == true ] && createdb -U postgres --owner=$PGUSERNAME $PGDATABASE
+# Create user and database with credentials from Fly.io secrets
+psql -U postgres postgres --command="CREATE USER $PGUSERNAME PASSWORD '$PGPASSWORD'"
+createdb -U postgres --owner=$PGUSERNAME $PGDATABASE
+
+else
+# Restart database after app with a volume is redeployed
+su postgres -c "pg_ctl restart -D /postgres-volume/run/postgresql/data/"
+fi
 
 yarn migrate up
 yarn start
