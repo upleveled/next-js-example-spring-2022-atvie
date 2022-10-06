@@ -1,11 +1,5 @@
 import camelcaseKeys from 'camelcase-keys';
-import { config } from 'dotenv-safe';
 import postgres from 'postgres';
-import setPostgresDefaultsOnHeroku from './setPostgresDefaultsOnHeroku';
-
-setPostgresDefaultsOnHeroku();
-
-config();
 
 // Type needed for the connection function below
 declare module globalThis {
@@ -15,21 +9,16 @@ declare module globalThis {
 // Connect only once to the database
 // https://github.com/vercel/next.js/issues/7811#issuecomment-715259370
 function connectOneTimeToDatabase() {
-  let sql;
-
-  if (process.env.NODE_ENV === 'production' && process.env.DATABASE_URL) {
-    // Heroku needs SSL connections but
-    // has an "unauthorized" certificate
-    // https://devcenter.heroku.com/changelog-items/852
-    sql = postgres({ ssl: { rejectUnauthorized: false } });
-  } else {
-    if (!globalThis.postgresSqlClient) {
-      globalThis.postgresSqlClient = postgres();
-    }
-    sql = globalThis.postgresSqlClient;
+  if (!globalThis.postgresSqlClient) {
+    globalThis.postgresSqlClient = postgres({
+      transform: {
+        ...postgres.camel,
+        undefined: null,
+      },
+    });
   }
 
-  return sql;
+  return globalThis.postgresSqlClient;
 }
 
 // Connect to PostgreSQL
@@ -253,7 +242,7 @@ export async function createSession(
 
 type SessionWithCSRFSecret = Session & { csrfSecret: string };
 
-export async function getValidSessionByToken(token: string) {
+export async function getValidSessionByToken(token: string | undefined) {
   if (!token) return undefined;
 
   const [session] = await sql<[SessionWithCSRFSecret | undefined]>`
@@ -273,7 +262,7 @@ export async function getValidSessionByToken(token: string) {
   return session && camelcaseKeys(session);
 }
 
-export async function getUserByValidSessionToken(token: string) {
+export async function getUserByValidSessionToken(token: string | undefined) {
   if (!token) return undefined;
 
   const [user] = await sql<[User | undefined]>`
